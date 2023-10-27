@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "strava-mds"
+version = "0.1.0"
+description = "Grant Culp Strava Modern Data Stack (Open Source) Project"
+authors = ["Grant Culp <grant.culp@kraftheinz.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.5.0"
+ruff = "^0.1.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

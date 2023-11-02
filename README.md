@@ -11,11 +11,14 @@ Please check out the other amazing projects that inspired me and this project
 
 
 ## TODO
-- [ ] Setup pytest
+- [x] Setup pytest
+- [ ] Move intterogate arguments to .toml file
+- [ ] Create a script for starting dagster locally
 - [ ] Build out internal library
 - [ ] Setup Github runners for CICD
 - [ ] Build out dagster ingest
 - [ ] Start dbt project
+- [ ] Use Asset Checks in Dagster
 - [ ] Decide between streamlit or evidence.dev
     - I want to use some maps
 - [ ] Do a local only project with DuckDB

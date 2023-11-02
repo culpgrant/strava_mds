@@ -11,6 +11,7 @@ dagster = "^1.5.5"
 dagster-webserver = "^1.5.5"
 dbt-duckdb = "^1.6.2"
 pytest = "^7.4.3"
+dbt-core = "1.6.0"
 
 
 [tool.poetry.group.dev.dependencies]

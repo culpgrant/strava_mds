@@ -15,6 +15,7 @@ Please check out the other amazing projects that inspired me and this project
 - [x] Move intterogate arguments to .toml file
 - [ ] Create a script for starting dagster locally
 - [ ] Build out internal library
+    - [ ] Create the handler for strava
 - [ ] Setup Github runners for CICD
 - [ ] Build out dagster ingest
 - [ ] Start dbt project

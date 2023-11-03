@@ -67,6 +67,14 @@ jobs:
             - name: Install project
               run: poetry install --no-interaction
 
+            #----------------------------------------------
+            # set python path for custom library
+            #----------------------------------------------
+
+            - name: Set Pythonpath
+              run: |
+                echo "PYTHONPATH=$PYTHONPATH" >> $GITHUB_ENV
+
             - name: Run Pre-commit Hooks
               uses: pre-commit/action@v3.0.0
 

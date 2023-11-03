@@ -81,7 +81,6 @@ jobs:
             - name: test commend
               run: |
                python -c "import sys; print('\n'.join(sys.path))"
-               python -c "print(os.environ["PYTHONPATH"])"
 
             - name: Test with pytest
               run: |

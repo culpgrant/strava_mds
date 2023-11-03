@@ -3,6 +3,9 @@ name = "strava-mds"
 version = "0.1.0"
 description = "Grant Culp Strava Modern Data Stack (Open Source) Project"
 authors = ["Grant Culp <grant.culp@kraftheinz.com>"]
+packages = [
+    { include = "core_library" },
+]
 readme = "README.md"
 
 [tool.poetry.dependencies]

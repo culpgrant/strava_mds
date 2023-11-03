@@ -5,8 +5,12 @@ import requests
 from dagster import asset
 
 
-@asset(metadata={"developer": "culpgrant21@gmail.com", "data_sensativity": "low"})
-def ingest_taxi_trips_files():
+@asset(
+    metadata={"developer": "culpgrant21@gmail.com", "data_sensativity": "low"},
+    compute_kind="python",
+    group_name="ingestion",
+)
+def ingest_test():
     """
     The raw parquert file for the taxi trips dataset. Sources from the NYC
     Open Data portal.

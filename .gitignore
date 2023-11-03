@@ -7,8 +7,10 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
-# Pytest
+# Pytest and coverage
 .pytest_cache
+.coverage
+htmlcov
 
 # Scratch Files
 scratch/

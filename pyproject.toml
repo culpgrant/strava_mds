@@ -17,6 +17,7 @@ dbt-core = "1.6.0"
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.5.0"
 ruff = "^0.1.3"
+pytest-cov = "^4.1.0"
 
 
 [build-system]
@@ -76,6 +77,13 @@ skip-magic-trailing-comma = false
 
 # Like Black, automatically detect the appropriate line ending.
 line-ending = "auto"
+
+[tool.interrogate]
+verbose = 1
+fail-under = 100
+ignore-init-module = true
+ignore-property-decorators = true
+exclude = ["tests"]
 
 [tool.dagster]
 module_name = "strava_dagster"

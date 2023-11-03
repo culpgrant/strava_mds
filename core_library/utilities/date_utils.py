@@ -1,5 +1,5 @@
 """
-Date and Time utilities
+Date and Time helper utilities
 """
 from datetime import datetime
 

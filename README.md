@@ -13,7 +13,7 @@ Please check out the other amazing projects that inspired me and this project
 ## TODO
 - [x] Setup pytest
 - [x] Move intterogate arguments to .toml file
-- [ ] Create a script for starting dagster locally
+- [ ] Setup logging
 - [ ] Build out internal library
     - [ ] Create the handler for strava
 - [ ] Setup Github runners for CICD

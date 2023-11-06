@@ -86,7 +86,7 @@ verbose = 1
 fail-under = 100
 ignore-init-module = true
 ignore-property-decorators = true
-exclude = ["tests"]
+exclude = ["tests", "scratch"]
 
 [tool.dagster]
 module_name = "strava_dagster"

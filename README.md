@@ -25,6 +25,7 @@ Please check out the other amazing projects that inspired me and this project
 - [ ] Decide between streamlit or evidence.dev
     - I want to use some maps
 - [ ] Do a local only project with DuckDB
+- [ ] Setup everything into a Docker container
 - [ ] Do a cloud project with deploying
     - Dagster, DBT, Docker, Kubernetes, Terraform
 - [ ] Maybe do an LLM over the dataset? idk

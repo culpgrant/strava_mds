@@ -2,23 +2,14 @@
 Strava API Handler
 #TODO: These should be turned into Dagster Resources
 """
-from enum import Enum
 from typing import Optional
+import requests
+from functools import lru_cache
+from tenacity import retry, stop_after_attempt, wait_fixed
+
 from core_library.utilities.custom_log import setup_console_logger
 
-import requests
-
 log = setup_console_logger(logger_name="test")
-
-
-class StravaExtractType(Enum):
-    """
-    Different endpoints to ingest from Strava
-    """
-
-    athlete = "athlete"
-    activities = "activities"
-    gear = "gear"  # also equipemnt
 
 
 class StravaHandler:
@@ -30,9 +21,9 @@ class StravaHandler:
         self,
         strava_client_id: str,
         strava_client_secret: str,
+        grant_type: str,
         code: Optional[str] = None,
         refresh_token: Optional[str] = None,
-        grant_type: Optional[str] = "authorization_code",
     ):
         """Init class for the API
 
@@ -51,7 +42,9 @@ class StravaHandler:
         self.refresh_token = refresh_token
         self.base_url = "https://www.strava.com/api/v3/"
 
-    # TODO: @lazy_property, @retry
+    # TODO: implement a _post method for getting the data
+    @lru_cache(maxsize=100)
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(3))
     def token(self) -> dict:
         """
         Gets a Stava API Bearer Token and associated data
@@ -83,7 +76,6 @@ class StravaHandler:
                 "Please pass in either (authorization_code and code) or (refresh_token and refresh_token)"
             )
         # Make the Call
-        log.info("Requesting Strava Token")
         response = requests.post(
             url=url,
             headers={},
@@ -103,8 +95,77 @@ class StravaHandler:
             return response.get("access_token")
         raise Exception("No token found - please check variables")
 
-    def api_headers(self) -> dict:
+    def get_api_headers(self) -> dict:
         """
         Returns the API Headers needed for the call
         """
-        return {"Authorization": f"bearer {self.token()}"}
+        return {"Authorization": f"Bearer {self.token()}"}
+
+    # def get_athlete(self) -> Generator[dict, None, None]:
+    def get_athlete(self) -> dict:
+        """
+        Get Athelete Data
+
+        :yield: Data from API Call
+        :rtype: Generator[dict, None, None]
+        """
+
+        log.info("Fetching Athlete Data")
+
+        return self._get(endpoint="athlete")
+
+        # yield from self._get(
+        #     endpoint='athlete'
+        # )
+
+    def get_equipment(self, id: str) -> dict:
+        """
+        Get equipment data - one at a time
+
+        :param id: equipemnt id from strava
+        :type id: str
+        :return: data
+        :rtype: dict
+        """
+
+        log.info("Fetching Equpment Data")
+
+        return self._get(endpoint=f"gear/{id}")
+
+    def get_athlete_stats(self, id: str) -> dict:
+        """
+        Get Athlets Stats
+
+        :param id: athelete_id (must be same as authenticated athlete)
+        :type id: str
+        :return: data from api
+        :rtype: dict
+        """
+
+        log.info("Fetching Athlete Stats Data")
+
+        return self._get(endpoint=f"athletes/{id}/stats")
+
+    def _get(self, endpoint: str) -> dict:
+        """
+        Helper Method for get requests
+
+        :param endpoint: endpoint that gets added to base url
+        :type endpoint: str
+        :raises Exception: Failed API Call
+        :return: API Data returned
+        :rtype: dict
+        """
+        url = f"{self.base_url}{endpoint}"
+        log.info(f"Get Request: {url}")
+        headers = self.get_api_headers()
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            return response.json()
+
+        raise Exception(
+            f"Failed API call with Get request: {response.status_code}\n"
+            f"text: {response.text}"
+        )

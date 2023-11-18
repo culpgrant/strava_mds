@@ -14,3 +14,4 @@ htmlcov
 
 # Scratch Files
 scratch/
+scratch_secrets.json

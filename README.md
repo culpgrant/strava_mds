@@ -13,6 +13,7 @@ Please check out the other amazing projects that inspired me and this project
 ## TODO
 - [x] Setup pytest
 - [x] Move intterogate arguments to .toml file
+- [ ] Add precommit hooks for "Your code has been rated at xxx/10"
 - [ ] Setup logging
 - [ ] Build out internal library
     - [ ] Create the handler for strava
@@ -29,3 +30,5 @@ Please check out the other amazing projects that inspired me and this project
 - [ ] Do a cloud project with deploying
     - Dagster, DBT, Docker, Kubernetes, Terraform
 - [ ] Maybe do an LLM over the dataset? idk
+- Things to test for:
+    - [ ] Dagster Assets should be in a group

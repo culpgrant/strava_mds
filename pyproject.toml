@@ -15,6 +15,7 @@ dagster-webserver = "^1.5.5"
 dbt-duckdb = "^1.6.2"
 pytest = "^7.4.3"
 dbt-core = "1.6.0"
+tenacity = "^8.2.3"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -89,4 +90,4 @@ ignore-property-decorators = true
 exclude = ["tests", "scratch"]
 
 [tool.dagster]
-module_name = "strava_dagster"
+module_name = "mds_dagster"

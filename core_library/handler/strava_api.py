@@ -1,15 +1,13 @@
 """
 Strava API Handler
-#TODO: These should be turned into Dagster Resources
 """
-from typing import Optional
 import requests
+from typing import Optional
 from functools import lru_cache
 from tenacity import retry, stop_after_attempt, wait_fixed
-
 from core_library.utilities.custom_log import setup_console_logger
 
-log = setup_console_logger(logger_name="test")
+mds_logger = setup_console_logger(logger_name="mds_logger")
 
 
 class StravaHandler:
@@ -34,7 +32,7 @@ class StravaHandler:
             refresh_token (Optional[str], optional): Refresh Token if using the refresh_token grant_type
             grant_type (Optional[str], optional): _description_. Defaults to "authorization_code".
         """
-        log.info("Initiallizing the client")
+        mds_logger.info("Initiallizing the client")
         self.strava_client_id = strava_client_id
         self.strava_client_secret = strava_client_secret
         self.code = code
@@ -53,7 +51,7 @@ class StravaHandler:
             dict: _description_
         """
 
-        log.info("Generating a Strava API Token")
+        mds_logger.info("Generating a Strava API Token")
 
         if self.grant_type == "authorization_code" and self.code is not None:
             # Construct URL
@@ -110,7 +108,7 @@ class StravaHandler:
         :rtype: Generator[dict, None, None]
         """
 
-        log.info("Fetching Athlete Data")
+        mds_logger.info("Fetching Athlete Data")
 
         return self._get(endpoint="athlete")
 
@@ -128,7 +126,7 @@ class StravaHandler:
         :rtype: dict
         """
 
-        log.info("Fetching Equpment Data")
+        mds_logger.info("Fetching Equpment Data")
 
         return self._get(endpoint=f"gear/{id}")
 
@@ -142,7 +140,7 @@ class StravaHandler:
         :rtype: dict
         """
 
-        log.info("Fetching Athlete Stats Data")
+        mds_logger.info("Fetching Athlete Stats Data")
 
         return self._get(endpoint=f"athletes/{id}/stats")
 
@@ -157,7 +155,7 @@ class StravaHandler:
         :rtype: dict
         """
         url = f"{self.base_url}{endpoint}"
-        log.info(f"Get Request: {url}")
+        mds_logger.info(f"Get Request: {url}")
         headers = self.get_api_headers()
 
         response = requests.get(url, headers=headers)

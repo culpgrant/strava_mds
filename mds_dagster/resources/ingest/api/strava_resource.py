@@ -28,7 +28,7 @@ class StravaHandlerResource(ConfigurableResource):
         """
         return StravaHandler(
             strava_client_id=self.strava_client_id,
-            strava_client_secret=self.strava_client_id,
+            strava_client_secret=self.strava_client_secret,
             grant_type=self.grant_type,
             refresh_token=self.refresh_token,
             code=self.code,

@@ -69,6 +69,10 @@ unfixable = []
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
+[tool.ruff.lint.isort]
+case-sensitive = true
+known-first-party = ["mds_dagster"]
+
 [tool.ruff.format]
 # Like Black, use double quotes for strings.
 quote-style = "double"

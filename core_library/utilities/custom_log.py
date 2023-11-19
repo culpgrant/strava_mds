@@ -4,8 +4,17 @@ Custom Logging Config
 import logging
 
 
-def setup_console_logger(logger_name=__name__, level=logging.DEBUG):
-    """Create the custom logger (temp function for now)"""
+def setup_console_logger(logger_name=__name__, level=logging.DEBUG) -> logging.Logger:
+    """
+    Create a python logger
+
+    :param logger_name: logger name to set, defaults to __name__
+    :type logger_name: _type_, optional
+    :param level: log level, defaults to logging.DEBUG
+    :type level: _type_, optional
+    :return: the logger
+    :rtype: logging.Logger
+    """
     # Create a logger
     logger = logging.getLogger(logger_name)
 

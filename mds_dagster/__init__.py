@@ -1,4 +1,5 @@
-from dagster import Definitions, load_assets_from_modules, EnvVar
+from dagster import Definitions, EnvVar, load_assets_from_modules
+
 from mds_dagster.assets.ingest.api import strava_asset
 from mds_dagster.resources.ingest.api.strava_resource import StravaHandlerResource
 

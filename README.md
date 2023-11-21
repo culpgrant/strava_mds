@@ -36,3 +36,4 @@ Please check out the other amazing projects that inspired me and this project
     - [ ] Dagster Assets should be in a group
 - [ ] Setup Sphinx website - https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html
 - [x] Github pr template
+- [ ] Dagster setup slack integration for failure bot

@@ -1,11 +1,11 @@
 """
 Dagster Resource for Strava API
 """
+from typing import Optional
+
 from dagster import ConfigurableResource
 
 from core_library.handler.strava_api import StravaHandler
-
-from typing import Optional
 
 
 class StravaHandlerResource(ConfigurableResource):

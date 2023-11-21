@@ -1,9 +1,9 @@
 """
 Ingest Strava API Assets
 """
-from mds_dagster.resources.ingest.api.strava_resource import StravaHandlerResource
+from dagster import AssetExecutionContext, asset
 
-from dagster import asset, AssetExecutionContext
+from mds_dagster.resources.ingest.api.strava_resource import StravaHandlerResource
 
 
 @asset(

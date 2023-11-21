@@ -1,10 +1,12 @@
 """
 Strava API Handler
 """
-import requests
-from typing import Optional
 from functools import lru_cache
-from tenacity import retry, stop_after_attempt, wait_fixed
+from typing import Optional
+
+import requests
+
+# from tenacity import retry, stop_after_attempt, wait_fixed
 from core_library.utilities.custom_log import setup_console_logger
 
 mds_logger = setup_console_logger(logger_name="mds_logger")
@@ -42,8 +44,9 @@ class StravaHandler:
 
     # TODO: implement a _post method for getting the data
     @lru_cache(maxsize=100)
-    @retry(stop=stop_after_attempt(3), wait=wait_fixed(3))
-    def token(self) -> dict:
+    # TODO: I have to fix this for pytest
+    # @retry(stop=stop_after_attempt(3), wait=wait_fixed(3))
+    def generate_token(self) -> dict:
         """
         Gets a Stava API Bearer Token and associated data
 
@@ -91,13 +94,13 @@ class StravaHandler:
 
         if "access_token" in response:
             return response.get("access_token")
-        raise Exception("No token found - please check variables")
+        raise Exception("No token found in response")
 
     def get_api_headers(self) -> dict:
         """
         Returns the API Headers needed for the call
         """
-        return {"Authorization": f"Bearer {self.token()}"}
+        return {"Authorization": f"Bearer {self.generate_token()}"}
 
     # def get_athlete(self) -> Generator[dict, None, None]:
     def get_athlete(self) -> dict:

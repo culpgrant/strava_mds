@@ -16,6 +16,7 @@ dbt-duckdb = "^1.6.2"
 pytest = "^7.4.3"
 dbt-core = "1.6.0"
 tenacity = "^8.2.3"
+sphinx = "7.1.2"
 
 
 [tool.poetry.group.dev.dependencies]

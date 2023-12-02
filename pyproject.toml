@@ -15,6 +15,8 @@ dagster-webserver = "^1.5.5"
 dbt-duckdb = "^1.6.2"
 pytest = "^7.4.3"
 dbt-core = "1.6.0"
+tenacity = "^8.2.3"
+sphinx = "7.1.2"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -46,6 +48,8 @@ exclude = [
     "node_modules",
     "venv",
 ]
+ignore-init-module-imports = true
+fix = true
 
 # Same as Black.
 line-length = 88
@@ -58,7 +62,7 @@ target-version = "py38"
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
-select = ["E4", "E7", "E9", "F"]
+select = ["E4", "E7", "E9", "F", "I001"]
 ignore = []
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
@@ -67,6 +71,10 @@ unfixable = []
 
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+known-first-party = ["mds_dagster"]
 
 [tool.ruff.format]
 # Like Black, use double quotes for strings.
@@ -86,7 +94,7 @@ verbose = 1
 fail-under = 100
 ignore-init-module = true
 ignore-property-decorators = true
-exclude = ["tests"]
+exclude = ["tests", "scratch"]
 
 [tool.dagster]
-module_name = "strava_dagster"
+module_name = "mds_dagster"

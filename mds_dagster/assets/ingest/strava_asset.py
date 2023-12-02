@@ -52,3 +52,28 @@ def strava_ingest_equipment(
         }
     )
     return data
+
+
+@asset(
+    metadata={"developer": "culpgrant21@gmail.com", "data_sensativity": "low"},
+    compute_kind="python",
+    group_name="ingestions",
+    deps=[strava_ingest_athlete],
+)
+def strava_ingest_athlete_stats(
+    context: AssetExecutionContext, strava_api_resource: StravaHandlerResource
+) -> List:
+    """
+    Equipment Data of stats on the equipment.
+    """
+    # We will need to read in from IO manager after strava_ingest_athlete is written to duckdb
+    # TODO: Update with above ^
+    athlete_id = "27017672"
+    data = strava_api_resource.get_client().get_athlete_stats(athlete_id)
+
+    context.add_output_metadata(
+        metadata={
+            "number_of_stats_returned": len(data[0]),
+        }
+    )
+    return data

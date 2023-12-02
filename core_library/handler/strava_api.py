@@ -105,7 +105,7 @@ class StravaHandler:
     # def get_athlete(self) -> Generator[dict, None, None]:
     def get_athlete(self) -> List:
         """
-        Get Athelete Data
+        Get Athelete Data - Includes basic information on athlete
 
         :yield: Data from API Call
         :rtype: Generator[dict, None, None]
@@ -118,7 +118,7 @@ class StravaHandler:
 
     def get_equipment(self, ids: List[str]) -> List:
         """
-        Get equipment data - provide a list of ids
+        Equipment Data of stats on the equipment.
 
         :param ids: List of equipemnt id from strava
         :type ids: List[str]
@@ -132,7 +132,7 @@ class StravaHandler:
             lod.append(list(data))
         return lod
 
-    def get_athlete_stats(self, id: str) -> dict:
+    def get_athlete_stats(self, id: str) -> List:
         """
         Get Athlets Stats
 
@@ -143,8 +143,8 @@ class StravaHandler:
         """
 
         mds_logger.info("Fetching Athlete Stats Data")
-
-        return self._get(endpoint=f"athletes/{id}/stats")
+        data = self._get(endpoint=f"athletes/{id}/stats")
+        return list(data)
 
     def _get(self, endpoint: str) -> Generator:
         """

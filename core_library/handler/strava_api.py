@@ -2,7 +2,7 @@
 Strava API Handler
 """
 from functools import lru_cache
-from typing import Optional
+from typing import Generator, List, Optional
 
 import requests
 
@@ -103,7 +103,7 @@ class StravaHandler:
         return {"Authorization": f"Bearer {self.generate_token()}"}
 
     # def get_athlete(self) -> Generator[dict, None, None]:
-    def get_athlete(self) -> dict:
+    def get_athlete(self) -> List:
         """
         Get Athelete Data
 
@@ -112,26 +112,25 @@ class StravaHandler:
         """
 
         mds_logger.info("Fetching Athlete Data")
+        data = self._get(endpoint="athlete")
 
-        return self._get(endpoint="athlete")
+        return list(data)
 
-        # yield from self._get(
-        #     endpoint='athlete'
-        # )
-
-    def get_equipment(self, id: str) -> dict:
+    def get_equipment(self, ids: List[str]) -> List:
         """
-        Get equipment data - one at a time
+        Get equipment data - provide a list of ids
 
-        :param id: equipemnt id from strava
-        :type id: str
+        :param ids: List of equipemnt id from strava
+        :type ids: List[str]
         :return: data
         :rtype: dict
         """
-
-        mds_logger.info("Fetching Equpment Data")
-
-        return self._get(endpoint=f"gear/{id}")
+        lod = []
+        for id in ids:
+            mds_logger.info(f"Fetching Equpment Data - {id}")
+            data = self._get(endpoint=f"gear/{id}")
+            lod.append(list(data))
+        return lod
 
     def get_athlete_stats(self, id: str) -> dict:
         """
@@ -147,7 +146,7 @@ class StravaHandler:
 
         return self._get(endpoint=f"athletes/{id}/stats")
 
-    def _get(self, endpoint: str) -> dict:
+    def _get(self, endpoint: str) -> Generator:
         """
         Helper Method for get requests
 
@@ -164,9 +163,10 @@ class StravaHandler:
         response = requests.get(url, headers=headers)
 
         if response.status_code == 200:
-            return response.json()
+            yield response.json()
 
-        raise Exception(
-            f"Failed API call with Get request: {response.status_code}\n"
-            f"text: {response.text}"
-        )
+        elif response.status_code != 200:
+            raise Exception(
+                f"Failed API call with Get request: {response.status_code}\n"
+                f"text: {response.text}"
+            )

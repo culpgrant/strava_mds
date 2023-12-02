@@ -1,7 +1,7 @@
 from dagster import Definitions, EnvVar, load_assets_from_modules
 
-from mds_dagster.assets.ingest.api import strava_asset
-from mds_dagster.resources.ingest.api.strava_resource import StravaHandlerResource
+from mds_dagster.assets.ingest import strava_asset
+from mds_dagster.resources.ingest.strava_resource import StravaHandlerResource
 
 all_assets = load_assets_from_modules([strava_asset])
 

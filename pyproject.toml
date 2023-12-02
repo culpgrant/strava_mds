@@ -48,6 +48,8 @@ exclude = [
     "node_modules",
     "venv",
 ]
+ignore-init-module-imports = true
+fix = true
 
 # Same as Black.
 line-length = 88

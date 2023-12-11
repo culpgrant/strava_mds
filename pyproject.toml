@@ -9,7 +9,7 @@ packages = [
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.11"
 dagster = "^1.5.5"
 dagster-webserver = "^1.5.5"
 dbt-duckdb = "^1.6.2"
@@ -17,6 +17,8 @@ pytest = "^7.4.3"
 dbt-core = "1.6.0"
 tenacity = "^8.2.3"
 sphinx = "7.1.2"
+polars = {version = "0.19.12", extras = ["pyarrow"]}
+dagster-polars = "^0.1.5"
 
 
 [tool.poetry.group.dev.dependencies]

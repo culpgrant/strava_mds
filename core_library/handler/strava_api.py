@@ -129,10 +129,10 @@ class StravaHandler:
         for id in ids:
             mds_logger.info(f"Fetching Equpment Data - {id}")
             data = self._get(endpoint=f"gear/{id}")
-            lod.append(list(data))
+            lod.append(next(data))
         return lod
 
-    def get_athlete_stats(self, id: str) -> List:
+    def get_athlete_stats(self, ids: List[str]) -> List:
         """
         Get Athlets Stats
 
@@ -141,10 +141,12 @@ class StravaHandler:
         :return: data from api
         :rtype: dict
         """
-
-        mds_logger.info("Fetching Athlete Stats Data")
-        data = self._get(endpoint=f"athletes/{id}/stats")
-        return list(data)
+        lod = []
+        for id in ids:
+            mds_logger.info("Fetching Athlete Stats Data")
+            data = self._get(endpoint=f"athletes/{id}/stats")
+            lod.append(next(data))
+        return lod
 
     def _get(self, endpoint: str) -> Generator:
         """

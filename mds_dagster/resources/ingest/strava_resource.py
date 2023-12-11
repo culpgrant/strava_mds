@@ -10,7 +10,7 @@ from core_library.handler.strava_api import StravaHandler
 
 class StravaHandlerResource(ConfigurableResource):
     """
-    Configrable Dagster Resource
+    Resource to Interact with the Strava API
     """
 
     strava_client_id: str

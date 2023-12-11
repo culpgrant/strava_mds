@@ -489,6 +489,25 @@ ruff = ["ruff (==0.1.1)"]
 test = ["buildkite-test-collector", "docker", "grpcio-tools (>=1.44.0)", "mock (==3.0.5)", "morefs[asynclocal]", "mypy-protobuf", "objgraph", "pytest (>=7.0.1)", "pytest-cov (==2.10.1)", "pytest-dependency (==0.5.1)", "pytest-mock (==3.3.1)", "pytest-rerunfailures (==10.0)", "pytest-runner (==5.2)", "pytest-xdist (==3.3.1)", "responses (<=0.23.1)", "syrupy (<4)", "tox (==3.25.0)"]
 
 [[package]]
+name = "dagster-duckdb"
+version = "0.21.11"
+description = "Package for DuckDB-specific Dagster framework op and resource components."
+optional = false
+python-versions = "*"
+files = [
+    {file = "dagster-duckdb-0.21.11.tar.gz", hash = "sha256:c1dd297d03dc32927c397c7e301206e3fb12a7159bd1987210ad6c47567d65eb"},
+    {file = "dagster_duckdb-0.21.11-py3-none-any.whl", hash = "sha256:367242cb0fc7acf67323a449fe340d1891f6003a7ed04d77c0f158993151f877"},
+]
+
+[package.dependencies]
+dagster = "1.5.11"
+duckdb = "*"
+
+[package.extras]
+pandas = ["pandas (<2.1)"]
+pyspark = ["pyspark (>=3)"]
+
+[[package]]
 name = "dagster-graphql"
 version = "1.5.11"
 description = "The GraphQL frontend to python dagster."
@@ -3213,4 +3232,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "d88f6040bd363ca9256b9f2408d0605e67f3cfb0e99d0f2d2fea658c62d75832"
+content-hash = "21816373f6a26de2714f63bc7775242d43811086398437b8f440221ef1790dce"

@@ -19,6 +19,7 @@ tenacity = "^8.2.3"
 sphinx = "7.1.2"
 polars = {version = "0.19.12", extras = ["pyarrow"]}
 dagster-polars = "^0.1.5"
+dagster-duckdb = "^0.21.11"
 
 
 [tool.poetry.group.dev.dependencies]

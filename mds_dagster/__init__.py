@@ -1,8 +1,11 @@
 from dagster import Definitions, EnvVar, load_assets_from_modules
-from dagster_polars import PolarsParquetIOManager
 
 from mds_dagster.assets.ingest import strava_asset
+from mds_dagster.resources.duck_db_resource import duck_db_resource
 from mds_dagster.resources.ingest.strava_resource import StravaHandlerResource
+from mds_dagster.resources.polars_parquet_io_manager import (
+    polars_parquet_io_manager_resource,
+)
 
 all_assets = load_assets_from_modules([strava_asset])
 
@@ -17,8 +20,7 @@ defs = Definitions(
         ),
         # TODO: There has to be a better way to do this. I would like to define this dynamically
         # TODO: This Resource in Dagster web ui is not showing as being used
-        "polars_parquet_io_manager_strava_ingest": PolarsParquetIOManager(
-            base_dir="data/ingest/strava/"
-        ),
+        "polars_parquet_io_manager_strava_ingest": polars_parquet_io_manager_resource,
+        "duck_db_resource": duck_db_resource,
     },
 )

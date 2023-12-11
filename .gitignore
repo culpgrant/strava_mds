@@ -18,3 +18,9 @@ scratch_secrets.json
 
 # Sphinx
 docs/_build
+
+# Data files - gitignore trick - keep folder structure but not files
+*
+!*/
+!.gitignore
+!.gitkeep

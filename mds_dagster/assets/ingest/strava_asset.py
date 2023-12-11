@@ -82,7 +82,7 @@ def raw_strava_ingest_equipment(
     group_name="ingestions",
     io_manager_key="polars_parquet_io_manager_strava_ingest",
 )
-def strava_ingest_athlete_stats(
+def raw_strava_ingest_athlete_stats(
     context: AssetExecutionContext,
     strava_api_resource: StravaHandlerResource,
     raw_strava_ingest_athlete: pl.DataFrame,

@@ -18,7 +18,7 @@ defs = Definitions(
         # TODO: There has to be a better way to do this. I would like to define this dynamically
         # TODO: This Resource in Dagster web ui is not showing as being used
         "polars_parquet_io_manager_strava_ingest": PolarsParquetIOManager(
-            base_dir="data/strava/"
+            base_dir="data/ingest/strava/"
         ),
     },
 )

@@ -3,8 +3,9 @@ Dagster DuckDB Resource for interating with DuckDB
 Creating to maintain the resource easier
 """
 
-from typing import Dict, Optional
+from typing import Any, Dict, List, Optional, Union
 
+import polars as pl
 from dagster_duckdb import DuckDBResource
 
 from core_library.utilities.custom_log import setup_console_logger
@@ -12,7 +13,6 @@ from core_library.utilities.custom_log import setup_console_logger
 mds_logger = setup_console_logger()
 
 # TODO: Make it so execute_query can take multiple queries
-# TODO: Fix the type checks
 
 
 class MDSDuckDBResource(DuckDBResource):
@@ -26,7 +26,7 @@ class MDSDuckDBResource(DuckDBResource):
         write_disk_format: Optional[str] = None,
         write_disk_location: Optional[str] = None,
         fetch_format: Optional[str] = "python_object",
-    ):
+    ) -> Union[pl.DataFrame, List[Any], None]:
         """
         Execute and return a query
 
@@ -44,7 +44,7 @@ class MDSDuckDBResource(DuckDBResource):
         :return: Duckdb query result
         :rtype: _type_
         """
-        valid_fetch_format = {"polars", "arrow", "python_object"}
+        valid_fetch_format = {"polars", "python_object"}
         valid_write_disk_format = {"parquet", "csv"}
 
         # Validate the parameters
@@ -68,11 +68,10 @@ class MDSDuckDBResource(DuckDBResource):
             elif fetch_format == "python_object":
                 result = conn.execute(query=sql_query).fetchall()
                 return result
-            elif fetch_format == "arrow":
-                result = conn.execute(query=sql_query).arrow()
-                return result
 
-    def generate_dagster_metadata(self, table_name: str, *args, **kwargs) -> Dict:
+    def generate_dagster_metadata(
+        self, table_name: str, schema_name: str = "main", *args, **kwargs
+    ) -> Dict:
         """
         Generates a dictionary of the metadata that we want to pass into Dagster
 
@@ -81,7 +80,6 @@ class MDSDuckDBResource(DuckDBResource):
         :return: helpful metadata
         :rtype: Dict
         """
-        # TODO: implement a schema functionality to this
         mds_logger.info("Gathering Duck DB Table Metadata")
         columns_select = [
             "database_name",
@@ -90,10 +88,11 @@ class MDSDuckDBResource(DuckDBResource):
             "column_count",
             "estimated_size",
         ]
-        query = f"SELECT {','.join(columns_select)} FROM duckdb_tables() WHERE TABLE_NAME = '{table_name}'"
+        query = f"SELECT {','.join(columns_select)} FROM duckdb_tables() WHERE TABLE_NAME = '{table_name}' AND SCHEMA_NAME = '{schema_name}'"
 
         query_result = self.execute_query(query, fetch_format="polars", *args, **kwargs)
-
+        # Assuming that it is a dataframe
+        assert isinstance(query_result, pl.DataFrame)
         metadata = {
             "table_name": query_result.select("table_name").item(),
             "datbase_name": query_result.select("database_name").item(),
@@ -121,6 +120,7 @@ class MDSDuckDBResource(DuckDBResource):
         query = f"SELECT DISTINCT schema_name FROM information_schema.schemata WHERE schema_name = '{schema_name}';"
 
         query_result = self.execute_query(query, fetch_format="python_object")
+        assert isinstance(query_result, list)
         if len(query_result) > 0:
             return True
         else:

@@ -37,7 +37,9 @@ def staging_strava_athlete(
         f"CREATE OR REPLACE TABLE {schema_name}.{table_name} AS FROM read_parquet('data/ingest/strava/raw_strava_ingest_athlete.parquet')"
     )
 
-    table_metadata = duckdb.generate_dagster_metadata(table_name=table_name)
+    table_metadata = duckdb.generate_dagster_metadata(
+        table_name=table_name, schema_name=schema_name
+    )
 
     # Getting this metadata should be implemented into a function
     context.add_output_metadata(metadata=table_metadata)

@@ -9,7 +9,7 @@ from polars.type_aliases import FrameInitTypes
 from core_library.utilities.custom_log import setup_console_logger
 from core_library.utilities.text_utils import cols_text_to_standard
 
-mds_logger = setup_console_logger(logger_name="mds_logger")
+mds_logger = setup_console_logger()
 
 
 def pl_create_df(data: FrameInitTypes, schema: Optional[Dict] = None) -> pl.DataFrame:

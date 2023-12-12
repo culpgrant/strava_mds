@@ -9,7 +9,7 @@ import requests
 # from tenacity import retry, stop_after_attempt, wait_fixed
 from core_library.utilities.custom_log import setup_console_logger
 
-mds_logger = setup_console_logger(logger_name="mds_logger")
+mds_logger = setup_console_logger()
 
 
 class StravaHandler:
@@ -34,7 +34,7 @@ class StravaHandler:
             refresh_token (Optional[str], optional): Refresh Token if using the refresh_token grant_type
             grant_type (Optional[str], optional): _description_. Defaults to "authorization_code".
         """
-        mds_logger.info("Initiallizing the client")
+        mds_logger.info("Initiallizing the Strava client")
         self.strava_client_id = strava_client_id
         self.strava_client_secret = strava_client_secret
         self.code = code

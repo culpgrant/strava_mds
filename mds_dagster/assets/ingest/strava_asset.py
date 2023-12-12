@@ -12,7 +12,7 @@ from core_library.utilities.polars_dataframe_utils import (
 )
 from mds_dagster.resources.ingest.strava_resource import StravaHandlerResource
 
-mds_logger = setup_console_logger(logger_name="mds_logger")
+mds_logger = setup_console_logger()
 
 
 @asset(

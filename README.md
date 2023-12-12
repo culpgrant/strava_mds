@@ -42,6 +42,7 @@ Please check out the other amazing projects that inspired me and this project
 - [ ] Build Sphinx website - https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html
 - [ ] Dagster setup slack integration for failure bot
     - Also do on success include helpful metadata (name, description, developer, trigger time)
-- [ ] Add dataframe utils
+- [x] Add dataframe utils
 - [ ] Build an internal Monitoring/Health check report
     - [ ] DBT % of models with documentation/tests/pk test
+    - [ ] evlauate dbt_project_evaluator

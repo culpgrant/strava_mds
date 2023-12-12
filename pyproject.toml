@@ -10,7 +10,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-dagster = "^1.5.5"
+dagster = "^1.5.12"
 dagster-webserver = "^1.5.5"
 dbt-duckdb = "^1.6.2"
 pytest = "^7.4.3"

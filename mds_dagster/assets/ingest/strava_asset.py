@@ -21,7 +21,7 @@ mds_logger = setup_console_logger()
     group_name="ingestions",
     io_manager_key="polars_parquet_io_manager_strava_ingest",
 )
-def raw_strava_ingest_athlete(
+def raw_ingest_strava_athlete(
     context: AssetExecutionContext,
     strava_api_resource: StravaHandlerResource,
 ) -> pl.DataFrame:
@@ -43,10 +43,10 @@ def raw_strava_ingest_athlete(
     group_name="ingestions",
     io_manager_key="polars_parquet_io_manager_strava_ingest",
 )
-def raw_strava_ingest_equipment(
+def raw_ingest_strava_equipment(
     context: AssetExecutionContext,
     strava_api_resource: StravaHandlerResource,
-    raw_strava_ingest_athlete: pl.DataFrame,
+    raw_ingest_strava_athlete: pl.DataFrame,
 ) -> pl.DataFrame:
     """
     Equipment Data of stats on the equipment.
@@ -55,7 +55,7 @@ def raw_strava_ingest_equipment(
     # Get the Equipment IDs of the athlete
     # TODO: We should put this into a function
     equipment_dict = (
-        raw_strava_ingest_athlete.select("shoes", "bikes")
+        raw_ingest_strava_athlete.select("shoes", "bikes")
         .head(1)
         .to_dict(as_series=False)
     )
@@ -82,10 +82,10 @@ def raw_strava_ingest_equipment(
     group_name="ingestions",
     io_manager_key="polars_parquet_io_manager_strava_ingest",
 )
-def raw_strava_ingest_athlete_stats(
+def raw_ingest_strava_athlete_stats(
     context: AssetExecutionContext,
     strava_api_resource: StravaHandlerResource,
-    raw_strava_ingest_athlete: pl.DataFrame,
+    raw_ingest_strava_athlete: pl.DataFrame,
 ) -> pl.DataFrame:
     """
     Basic overall stats on the athletes
@@ -94,7 +94,7 @@ def raw_strava_ingest_athlete_stats(
     mds_logger.info("Getting Athlete IDs that have been ingested")
     # TODO: We should put this into a function
     athlete_ids = (
-        raw_strava_ingest_athlete.select("id").head(1).to_dict(as_series=False)["id"]
+        raw_ingest_strava_athlete.select("id").head(1).to_dict(as_series=False)["id"]
     )
     data = strava_api_resource.get_client().get_athlete_stats(athlete_ids)
     pl_df = pl_create_df(data)

@@ -9,7 +9,7 @@ import requests
 # from tenacity import retry, stop_after_attempt, wait_fixed
 from core_library.utilities.custom_log import setup_console_logger
 
-mds_logger = setup_console_logger(logger_name="mds_logger")
+mds_logger = setup_console_logger()
 
 
 class StravaHandler:
@@ -34,7 +34,7 @@ class StravaHandler:
             refresh_token (Optional[str], optional): Refresh Token if using the refresh_token grant_type
             grant_type (Optional[str], optional): _description_. Defaults to "authorization_code".
         """
-        mds_logger.info("Initiallizing the client")
+        mds_logger.info("Initiallizing the Strava client")
         self.strava_client_id = strava_client_id
         self.strava_client_secret = strava_client_secret
         self.code = code
@@ -44,7 +44,7 @@ class StravaHandler:
 
     # TODO: implement a _post method for getting the data
     @lru_cache(maxsize=100)
-    # TODO: I have to fix this for pytest
+    # TODO: I have to fix this for pytest (retry)
     # @retry(stop=stop_after_attempt(3), wait=wait_fixed(3))
     def generate_token(self) -> dict:
         """
@@ -129,10 +129,10 @@ class StravaHandler:
         for id in ids:
             mds_logger.info(f"Fetching Equpment Data - {id}")
             data = self._get(endpoint=f"gear/{id}")
-            lod.append(list(data))
+            lod.append(next(data))
         return lod
 
-    def get_athlete_stats(self, id: str) -> List:
+    def get_athlete_stats(self, ids: List[str]) -> List:
         """
         Get Athlets Stats
 
@@ -141,10 +141,12 @@ class StravaHandler:
         :return: data from api
         :rtype: dict
         """
-
-        mds_logger.info("Fetching Athlete Stats Data")
-        data = self._get(endpoint=f"athletes/{id}/stats")
-        return list(data)
+        lod = []
+        for id in ids:
+            mds_logger.info("Fetching Athlete Stats Data")
+            data = self._get(endpoint=f"athletes/{id}/stats")
+            lod.append(next(data))
+        return lod
 
     def _get(self, endpoint: str) -> Generator:
         """
@@ -166,7 +168,7 @@ class StravaHandler:
             yield response.json()
 
         elif response.status_code != 200:
-            raise Exception(
+            raise ValueError(
                 f"Failed API call with Get request: {response.status_code}\n"
                 f"text: {response.text}"
             )

@@ -5,7 +5,7 @@
 .ruff_cache
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+**/__pycache__/
 
 # Pytest and coverage
 .pytest_cache
@@ -18,3 +18,8 @@ scratch_secrets.json
 
 # Sphinx
 docs/_build
+
+# Data files - gitignore trick - keep folder structure but not files
+# This is causing an issue with the resources .py files
+*.duckdb
+*.parquet

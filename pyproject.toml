@@ -9,14 +9,17 @@ packages = [
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-dagster = "^1.5.5"
+python = "^3.11"
+dagster = "^1.5.12"
 dagster-webserver = "^1.5.5"
 dbt-duckdb = "^1.6.2"
 pytest = "^7.4.3"
 dbt-core = "1.6.0"
 tenacity = "^8.2.3"
 sphinx = "7.1.2"
+polars = {version = "0.19.12", extras = ["pyarrow"]}
+dagster-polars = "^0.1.5"
+dagster-duckdb = "^0.21.11"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -98,3 +101,9 @@ exclude = ["tests", "scratch"]
 
 [tool.dagster]
 module_name = "mds_dagster"
+
+[tool.coverage.run]
+omit = [
+    "scratch/*",
+    "tests/*",
+]

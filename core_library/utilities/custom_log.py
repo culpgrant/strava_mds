@@ -4,7 +4,9 @@ Custom Logging Config
 import logging
 
 
-def setup_console_logger(logger_name=__name__, level=logging.DEBUG) -> logging.Logger:
+def setup_console_logger(
+    logger_name: str = "mds_logger", level: int = logging.DEBUG
+) -> logging.Logger:
     """
     Create a python logger
 
@@ -15,23 +17,25 @@ def setup_console_logger(logger_name=__name__, level=logging.DEBUG) -> logging.L
     :return: the logger
     :rtype: logging.Logger
     """
-    # Create a logger
     logger = logging.getLogger(logger_name)
+    if not logger.handlers:
+        # Create a logger
+        logger = logging.getLogger(logger_name)
 
-    # Set the logging level
-    logger.setLevel(level)
+        # Set the logging level
+        logger.setLevel(level)
 
-    # Create a console handler and set its level
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(level)
+        # Create a console handler and set its level
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(level)
 
-    # Create a formatter and attach it to the handler
-    formatter = logging.Formatter(
-        "%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
-    )
-    console_handler.setFormatter(formatter)
+        # Create a formatter and attach it to the handler
+        formatter = logging.Formatter(
+            "%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
+        )
+        console_handler.setFormatter(formatter)
 
-    # Add the console handler to the logger
-    logger.addHandler(console_handler)
+        # Add the console handler to the logger
+        logger.addHandler(console_handler)
 
     return logger

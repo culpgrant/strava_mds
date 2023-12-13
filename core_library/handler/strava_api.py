@@ -44,7 +44,7 @@ class StravaHandler:
 
     # TODO: implement a _post method for getting the data
     @lru_cache(maxsize=100)
-    # TODO: I have to fix this for pytest
+    # TODO: I have to fix this for pytest (retry)
     # @retry(stop=stop_after_attempt(3), wait=wait_fixed(3))
     def generate_token(self) -> dict:
         """
@@ -168,7 +168,7 @@ class StravaHandler:
             yield response.json()
 
         elif response.status_code != 200:
-            raise Exception(
+            raise ValueError(
                 f"Failed API call with Get request: {response.status_code}\n"
                 f"text: {response.text}"
             )

@@ -101,3 +101,9 @@ exclude = ["tests", "scratch"]
 
 [tool.dagster]
 module_name = "mds_dagster"
+
+[tool.coverage.run]
+omit = [
+    "scratch/*",
+    "tests/*",
+]

@@ -8,3 +8,7 @@ Please check out the other amazing projects that inspired me and this project
 
 # Run Locally
 - Set `PYTHONPATH` environment variable
+
+# Currently working on: Issue 15 (Dagster jobs and assets)
+
+Article on deploying Dagster: https://ibrahimhkoyuncu.medium.com/dagster-complete-guide-to-deploy-multiple-data-pipelines-to-dagster-on-kubernetes-environment-b0f83a54fce2

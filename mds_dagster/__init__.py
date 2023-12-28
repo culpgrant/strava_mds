@@ -1,14 +1,22 @@
-from dagster import Definitions, EnvVar, load_assets_from_modules
+from dagster import (
+    Definitions,
+    EnvVar,
+    load_asset_checks_from_modules,
+    load_assets_from_modules,
+)
 
 from mds_dagster.assets.ingest import strava_asset
 from mds_dagster.assets.staging_data import strava_asset_staging
+from mds_dagster.jobs.assets.ingest.strava_jobs import strava_job
 from mds_dagster.resources.duck_db_resource import MDSDuckDBResource
 from mds_dagster.resources.ingest.strava_resource import StravaHandlerResource
 from mds_dagster.resources.polars_parquet_io_manager import (
     polars_parquet_io_manager_resource,
 )
+from mds_dagster.schedules import strava_schedule
 
 all_assets = load_assets_from_modules([strava_asset, strava_asset_staging])
+all_asset_checks = load_asset_checks_from_modules([strava_asset_staging])
 
 defs = Definitions(
     assets=all_assets,
@@ -24,4 +32,7 @@ defs = Definitions(
         "polars_parquet_io_manager_strava_ingest": polars_parquet_io_manager_resource,
         "duckdb": MDSDuckDBResource(database=EnvVar("MDS_DUCK_DB")),
     },
+    jobs=[strava_job],
+    schedules=[strava_schedule],
+    asset_checks=all_asset_checks,
 )

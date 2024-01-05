@@ -1,10 +1,12 @@
+import warnings
+
 from dagster import (
     Definitions,
     EnvVar,
-    load_asset_checks_from_modules,
     load_assets_from_modules,
 )
 
+from core_library.dagster import dagster_asset_check_factory
 from mds_dagster.assets.ingest import strava_asset
 from mds_dagster.assets.staging_data import strava_asset_staging
 from mds_dagster.jobs.assets.ingest.strava_jobs import strava_job
@@ -15,8 +17,11 @@ from mds_dagster.resources.polars_parquet_io_manager import (
 )
 from mds_dagster.schedules import strava_schedule
 
+warnings.simplefilter("ignore")
+
 all_assets = load_assets_from_modules([strava_asset, strava_asset_staging])
-all_asset_checks = load_asset_checks_from_modules([strava_asset_staging])
+all_asset_checks = dagster_asset_check_factory.dagster_load_all_checks()
+
 
 defs = Definitions(
     assets=all_assets,

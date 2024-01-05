@@ -3,13 +3,10 @@ Generate the Strava assets within duckdb (staging tables)
 """
 import warnings
 
-import polars as pl
 from dagster import (
-    AssetCheckResult,
     AssetExecutionContext,
     ExperimentalWarning,
     asset,
-    asset_check,
 )
 
 from core_library.utilities.custom_log import setup_console_logger
@@ -62,28 +59,28 @@ def staging_strava_athlete(
     context.add_output_metadata(metadata=table_metadata)
 
 
-@asset_check(asset=staging_strava_athlete)
-def athelete_id_unique(duckdb: MDSDuckDBResource):
-    """
-    Runs the asset check (going to do a asset check factory).
+# @asset_check(asset=staging_strava_athlete)
+# def athelete_id_unique(duckdb: MDSDuckDBResource):
+#     """
+#     Runs the asset check (going to do a asset check factory).
 
-    :param duckdb: Dagster DuckDB Resource
-    :type duckdb: DuckDBResource
-    """
-    mds_logger.info("Running Asset Checks")
+#     :param duckdb: Dagster DuckDB Resource
+#     :type duckdb: DuckDBResource
+#     """
+#     mds_logger.info("Running Asset Checks")
 
-    query = """
-    SELECT id
-    FROM staging.staging_strava_athlete
-    GROUP BY id
-    HAVING COUNT(*) > 1
-    """
-    duplicate_ids = duckdb.execute_query(query, fetch_format="polars")
-    assert isinstance(duplicate_ids, pl.DataFrame)
+#     query = """
+#     SELECT id
+#     FROM staging.staging_strava_athlete
+#     GROUP BY id
+#     HAVING COUNT(*) > 1
+#     """
+#     duplicate_ids = duckdb.execute_query(query, fetch_format="polars")
+#     assert isinstance(duplicate_ids, pl.DataFrame)
 
-    return AssetCheckResult(
-        passed=bool(len(duplicate_ids) == 0),
-    )
+#     return AssetCheckResult(
+#         passed=bool(len(duplicate_ids) == 0),
+#     )
 
 
 @asset(

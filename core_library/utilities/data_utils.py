@@ -1,10 +1,10 @@
 """
 Utilities to help with data
 """
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
 
-def key_values_in_lod(data: List[Dict], select_key: str) -> List[Any]:
+def key_values_in_lod(data: Union[List[Dict], None], select_key: str) -> List[Any]:
     """
     Returns the value of the key from a List of Dictionary
 
@@ -15,5 +15,7 @@ def key_values_in_lod(data: List[Dict], select_key: str) -> List[Any]:
     :return: List of the data
     :rtype: List[Any]
     """
+    if data is None:
+        return []
     data = [item[select_key] for item in data]
     return data

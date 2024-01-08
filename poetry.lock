@@ -2001,6 +2001,24 @@ files = [
 ]
 
 [[package]]
+name = "pyright"
+version = "1.1.345"
+description = "Command line wrapper for pyright"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pyright-1.1.345-py3-none-any.whl", hash = "sha256:00891361baf58698aa660d9374823d65782823ceb4a65515ff5dd159b0d4d2b1"},
+    {file = "pyright-1.1.345.tar.gz", hash = "sha256:bb8c80671cdaeb913142b49642a741959f3fcd728c99814631c2bde3a7864938"},
+]
+
+[package.dependencies]
+nodeenv = ">=1.6.0"
+
+[package.extras]
+all = ["twine (>=3.4.1)"]
+dev = ["twine (>=3.4.1)"]
+
+[[package]]
 name = "pytest"
 version = "7.4.3"
 description = "pytest: simple powerful testing with Python"
@@ -3232,4 +3250,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "3be0873b2422f974fda907be95f4e000b2b54c4182936dfb1e7e2d77ac1112b3"
+content-hash = "1a4202727a211c49186be4a12b5235a9ca014efd68bc0035e8686c48441f7418"

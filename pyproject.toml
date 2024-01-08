@@ -20,6 +20,7 @@ sphinx = "7.1.2"
 polars = {version = "0.19.12", extras = ["pyarrow"]}
 dagster-polars = "^0.1.5"
 dagster-duckdb = "^0.21.11"
+pyright = "^1.1.345"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -107,3 +108,6 @@ omit = [
     "scratch/*",
     "tests/*",
 ]
+
+[tool.pyright]
+exclude = ["**/scratch"]

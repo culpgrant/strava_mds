@@ -78,6 +78,13 @@ jobs:
             - name: Run Pre-commit Hooks
               uses: pre-commit/action@v3.0.0
 
+            #----------------------------------------------
+            # Run python type checking
+            #----------------------------------------------
+            - name: Python Type Checking - pyright
+              run: |
+                pyright
+
             - name: Test with pytest
               run: |
                 source .venv/bin/activate

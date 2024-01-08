@@ -82,8 +82,7 @@ jobs:
             # Run python type checking
             #----------------------------------------------
             - name: Python Type Checking - pyright
-              run: |
-                pyright
+              uses: jakebailey/pyright-action@v1
 
             - name: Test with pytest
               run: |

@@ -45,6 +45,7 @@ jobs:
                 virtualenvs-create: true
                 virtualenvs-in-project: true
                 installer-parallel: true
+
             #----------------------------------------------
             #       load cached venv if cache exists
             #----------------------------------------------
@@ -74,6 +75,7 @@ jobs:
             - name: Set Pythonpath
               run: |
                 echo "PYTHONPATH=$STRAVA_MDS" >> $GITHUB_ENV
+                echo "$(poetry env info --path)/bin" >> $GITHUB_PATH
 
             - name: Run Pre-commit Hooks
               uses: pre-commit/action@v3.0.0
@@ -83,6 +85,9 @@ jobs:
             #----------------------------------------------
             - name: Python Type Checking - pyright
               uses: jakebailey/pyright-action@v1
+              with:
+                pylance-version: latest-release
+
 
             - name: Test with pytest
               run: |

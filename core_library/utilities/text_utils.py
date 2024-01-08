@@ -16,10 +16,13 @@ def camel_case_to_snake_case(text: str, to_lower: bool = True) -> str:
     :rtype: str
     """
     regex = "(?<!^)(?=[A-Z])"
+    result = re.sub(regex, "_", text)
+    # Handle to fix the __{} exception
+    result = re.sub(r"^__", "_", result)
+
     if to_lower:
-        return re.sub(regex, "_", text).lower()
-    else:
-        return re.sub(regex, "_", text)
+        return result.lower()
+    return result
 
 
 def remove_special_charachters(

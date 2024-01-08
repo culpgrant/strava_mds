@@ -30,10 +30,6 @@ class PolarsAssetChecks:
     Each check should return the 'illegal' records
     """
 
-    def __init__(self) -> None:
-        """Init method"""
-        pass
-
     def main_handler(self, test_name: str, column: str) -> str:
         """
         Function that handles what Data Asset Check to call

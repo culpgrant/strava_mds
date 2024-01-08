@@ -16,3 +16,5 @@ Article on deploying Dagster: https://ibrahimhkoyuncu.medium.com/dagster-complet
 # TODO:
 - look into package called dbt-coverage
 - For some reason my coverage report is not recognizing all the files
+- A unit test to make sure every function is added in the __all__ in the __init__ file
+- Add pyright to the CI/CD process

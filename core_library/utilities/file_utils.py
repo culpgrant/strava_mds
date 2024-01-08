@@ -70,6 +70,10 @@ def get_files_directory(
                 if file.endswith(file_extension):
                     file_path = os.path.join(root, file)
                     file_paths.append(file_path)
+            else:
+                file_path = os.path.join(root, file)
+                file_paths.append(file_path)
+
     return file_paths
 
 

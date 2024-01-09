@@ -97,7 +97,6 @@ jobs:
               uses: pre-commit/action@v3.0.0
 
             - name: Test with pytest
-              working-directory: /strava_mds
               run: |
                 source .venv/bin/activate
                 pytest --junitxml=junit/test-results.xml --cov --cov-report xml

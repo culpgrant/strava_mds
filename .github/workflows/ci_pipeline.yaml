@@ -76,9 +76,7 @@ jobs:
               run: |
                 echo "PYTHONPATH=$STRAVA_MDS" >> $GITHUB_ENV
 
-            # This is for the prebuild action - run: echo "$(poetry env info --path)/bin" >> $GITHUB_PATH
-
-            - run: python -c 'import sys, json; json.dump(sys.path, sys.stdout, indent=4)'
+            - run: echo "$(poetry env info --path)/bin" >> $GITHUB_PATH
 
             - uses: actions/setup-node@v3
               with:

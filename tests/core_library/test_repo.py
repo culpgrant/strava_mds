@@ -17,6 +17,10 @@ def test_check_file_extensions():
         for file in files:
             if any(file.endswith(ext) for ext in illegal_extensions):
                 file_name = f"{root}/{file}"
+                print("Illegal:")
+                print(root)
+                print(dirs)
+                print(file)
                 illegal_files.append(file_name)
 
     assert (

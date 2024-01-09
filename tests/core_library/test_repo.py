@@ -18,4 +18,6 @@ def test_check_file_extensions():
                 file_name = f"{root}/{file}"
                 illegal_files.append(file_name)
 
-    assert len(illegal_files) == 0, "The following files have illegal extensions"
+    assert (
+        len(illegal_files) == 0
+    ), f"The following files have illegal extensions - {illegal_files}"

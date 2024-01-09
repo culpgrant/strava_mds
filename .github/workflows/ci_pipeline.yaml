@@ -62,8 +62,9 @@ jobs:
             - name: Install dependencies
               if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
               run: poetry install --no-interaction --no-root
+
             #----------------------------------------------
-            # install your root project, if required
+            # install your root project
             #----------------------------------------------
             - name: Install project
               run: poetry install --no-interaction
@@ -75,27 +76,20 @@ jobs:
             - name: Set Pythonpath
               run: |
                 echo "PYTHONPATH=$STRAVA_MDS" >> $GITHUB_ENV
+                echo "$(poetry env info --path)/bin" >> $GITHUB_PATH
 
-            - run: echo "$(poetry env info --path)/bin" >> $GITHUB_PATH
+            #----------------------------------------------
+            # Run python type checking
+            #----------------------------------------------
 
             - uses: actions/setup-node@v3
               with:
                 node-version: "18"
             - run: npm install -g pyright
-            - run: pyright strava_mds
+            - run: pyright core_library
 
             - name: Run Pre-commit Hooks
               uses: pre-commit/action@v3.0.0
-
-            #----------------------------------------------
-            # Run python type checking
-            #----------------------------------------------
-            - name: Python Type Checking - pyright
-              uses: jakebailey/pyright-action@v1
-              with:
-                pylance-version: latest-release
-                working-directory: core_library
-
 
             - name: Test with pytest
               run: |

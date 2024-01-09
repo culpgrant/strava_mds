@@ -12,6 +12,7 @@ def test_check_file_extensions():
     """
     illegal_files = []
     directory = os.getcwd()
+    print(f"HERE IS THE DIRECTORY: {directory}")
     for root, dirs, files in os.walk(directory):
         for file in files:
             if any(file.endswith(ext) for ext in illegal_extensions):

@@ -12,15 +12,13 @@ def test_check_file_extensions():
     """
     illegal_files = []
     directory = os.getcwd()
-    print(f"HERE IS THE DIRECTORY: {directory}")
     for root, dirs, files in os.walk(directory):
         for file in files:
             if any(file.endswith(ext) for ext in illegal_extensions):
                 file_name = f"{root}/{file}"
-                print("Illegal:")
-                print(root)
-                print(dirs)
-                print(file)
+                # Ignore files from installed libraries
+                if root.startswith("/home/runner/work/strava_mds/strava_mds/.venv"):
+                    continue
                 illegal_files.append(file_name)
 
     assert (

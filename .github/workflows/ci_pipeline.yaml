@@ -94,6 +94,7 @@ jobs:
               uses: jakebailey/pyright-action@v1
               with:
                 pylance-version: latest-release
+                working-directory: core_library
 
 
             - name: Test with pytest

@@ -82,17 +82,22 @@ jobs:
             # Run python type checking
             #----------------------------------------------
 
-            - uses: actions/setup-node@v3
+            - name: Setup node
+              uses: actions/setup-node@v3
               with:
                 node-version: "18"
-            - run: npm install -g pyright
-            - run: pyright core_library
+
+            - name: Setup pyright
+              run: npm install -g pyright
+
+            - name: Run pyright
+              run: pyright core_library
 
             - name: Run Pre-commit Hooks
               uses: pre-commit/action@v3.0.0
 
             - name: Test with pytest
-              working-directory: ./strava_mds
+              working-directory: /strava_mds
               run: |
                 source .venv/bin/activate
                 pytest --junitxml=junit/test-results.xml --cov --cov-report xml

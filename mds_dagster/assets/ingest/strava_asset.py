@@ -28,6 +28,7 @@ def raw_ingest_strava_athlete(
     """
     Includes basic information on athlete
     """
+    mds_logger.info("Ingesting basic info on authenticated athlete")
     data = strava_api_resource.get_client().get_athlete()
 
     pl_df = pl_create_df(data)
@@ -64,6 +65,7 @@ def raw_ingest_strava_equipment(
     list_of_ids = shoe_ids + bike_ids
     mds_logger.info(f"IDs: {list_of_ids}")
 
+    mds_logger.info("Ingesting athletes equipment")
     data = strava_api_resource.get_client().get_equipment(list_of_ids)
     pl_df = pl_create_df(data)
     pl_df = pl_df_cols_to_standard(pl_df)
@@ -96,6 +98,8 @@ def raw_ingest_strava_athlete_stats(
     athlete_ids = (
         raw_ingest_strava_athlete.select("id").head(1).to_dict(as_series=False)["id"]
     )
+
+    mds_logger.info("Ingesting athletes basic stats")
     data = strava_api_resource.get_client().get_athlete_stats(athlete_ids)
     pl_df = pl_create_df(data)
     pl_df = pl_df_cols_to_standard(pl_df)

@@ -78,7 +78,7 @@ class PolarsAssetChecks:
 
 def load_yaml_asset_check_files(
     directory: str = "mds_dagster/asset_checks"
-) -> Generator:
+) -> Generator[List, None, None]:
     """
     Load all the YAML Asset Check files into a Generator of lists
 
@@ -111,7 +111,31 @@ def load_yaml_asset_check_files(
 
         # TODO: We need to validate all of the test_names that they are valid test names
 
-        yield asset_check_def.get("data_tests")
+        data = asset_check_def.get("data_tests")
+        assert isinstance(data, List)
+
+        yield data
+
+
+def create_dagster_asset_check_name(
+    asset_name: str, check_name: str, column_name: str
+) -> str:
+    """
+    Create the Dagster Asset Check Name. What dagster registers the asset check as
+
+    :param asset_name: asset name to run the check on
+    :type asset_name: str
+    :param check_name: the check to run
+    :type check_name: str
+    :param column_name: the columnn to run the check on
+    :type column_name: str
+    :return: asset check name
+    :rtype: str
+    """
+
+    check_name = "asset_check__" + asset_name + "_" + check_name + "_" + column_name
+
+    return check_name
 
 
 def create_dagster_check(
@@ -132,8 +156,8 @@ def create_dagster_check(
     :rtype: AssetChecksDefinition
     """
     polars_asset_checks = PolarsAssetChecks()
-    asset_check_name = (
-        "asset_check__" + asset_name + "_" + check_name + "_" + column_name
+    asset_check_name = create_dagster_asset_check_name(
+        asset_name, check_name, column_name
     )
 
     @asset_check(
@@ -155,10 +179,13 @@ def create_dagster_check(
         :rtype: AssetCheckResult
         """
         if engine_name == "polars":
-            # Log
+            # TODO: This is not currently very flexible as it is assuming a base directory
+            # And it is tied to the Strava Ingest
             base_directory = (
                 context.resources.polars_parquet_io_manager_strava_ingest.base_dir
             )
+
+            mds_logger.info(f"Setting Directory = {base_directory} for parquet file")
             df = pl.read_parquet(source=f"{base_directory}/{asset_name}.parquet")  # noqa: F841
             code_to_run = polars_asset_checks.main_handler(
                 test_name=check_name, column=column_name

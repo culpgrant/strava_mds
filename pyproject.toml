@@ -111,3 +111,8 @@ omit = [
 
 [tool.pyright]
 exclude = ["**/scratch"]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::dagster.ExperimentalWarning", # ignore dagster ExperimentalWarning
+]

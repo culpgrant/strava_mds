@@ -93,8 +93,16 @@ jobs:
             - name: Run pyright
               run: pyright core_library
 
+            #----------------------------------------------
+            # Run pre-commit
+            #----------------------------------------------
+
             - name: Run Pre-commit Hooks
               uses: pre-commit/action@v3.0.0
+
+            #----------------------------------------------
+            # Run pytest
+            #----------------------------------------------
 
             - name: Test with pytest
               run: |

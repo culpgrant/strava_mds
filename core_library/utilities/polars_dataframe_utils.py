@@ -32,7 +32,6 @@ def pl_df_cols_to_standard(df: pl.DataFrame):
     mds_logger.info("Converting dataframe cols to standard")
     for col in df.columns:
         new_col = cols_text_to_standard(col)
-        print(new_col)
         df = df.rename({col: new_col})
 
     return df

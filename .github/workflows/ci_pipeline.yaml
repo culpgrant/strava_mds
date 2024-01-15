@@ -45,6 +45,7 @@ jobs:
                 virtualenvs-create: true
                 virtualenvs-in-project: true
                 installer-parallel: true
+
             #----------------------------------------------
             #       load cached venv if cache exists
             #----------------------------------------------
@@ -61,8 +62,9 @@ jobs:
             - name: Install dependencies
               if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
               run: poetry install --no-interaction --no-root
+
             #----------------------------------------------
-            # install your root project, if required
+            # install your root project
             #----------------------------------------------
             - name: Install project
               run: poetry install --no-interaction
@@ -74,9 +76,33 @@ jobs:
             - name: Set Pythonpath
               run: |
                 echo "PYTHONPATH=$STRAVA_MDS" >> $GITHUB_ENV
+                echo "$(poetry env info --path)/bin" >> $GITHUB_PATH
+
+            #----------------------------------------------
+            # Run python type checking
+            #----------------------------------------------
+
+            - name: Setup node
+              uses: actions/setup-node@v3
+              with:
+                node-version: "18"
+
+            - name: Setup pyright
+              run: npm install -g pyright
+
+            - name: Run pyright
+              run: pyright core_library
+
+            #----------------------------------------------
+            # Run pre-commit
+            #----------------------------------------------
 
             - name: Run Pre-commit Hooks
               uses: pre-commit/action@v3.0.0
+
+            #----------------------------------------------
+            # Run pytest
+            #----------------------------------------------
 
             - name: Test with pytest
               run: |

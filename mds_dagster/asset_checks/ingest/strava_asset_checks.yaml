@@ -1,0 +1,21 @@
+data_tests:
+
+  - asset: raw_ingest_strava_athlete
+    engine: polars
+    tests:
+      - name: not_null
+        columns:
+          - id
+      - name: unique
+        columns:
+          - id
+
+  - asset: raw_ingest_strava_equipment
+    engine: polars
+    tests:
+      - name: not_null
+        columns:
+          - id
+      - name: unique
+        columns:
+          - id

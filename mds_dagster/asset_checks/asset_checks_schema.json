@@ -1,0 +1,77 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome6",
+    "definitions": {
+        "Welcome6": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "data_tests": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DataTest"
+                    }
+                }
+            },
+            "required": [
+                "data_tests"
+            ],
+            "title": "Welcome6"
+        },
+        "DataTest": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "asset": {
+                    "type": "string"
+                },
+                "engine": {
+                    "type": "string"
+                },
+                "tests": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Test"
+                    }
+                }
+            },
+            "required": [
+                "asset",
+                "engine",
+                "tests"
+            ],
+            "title": "DataTest"
+        },
+        "Test": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "columns": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "type": {
+                    "type": "string"
+                },
+                "min_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "max_date": {
+                    "type": "string",
+                    "format": "date"
+                }
+            },
+            "required": [
+                "columns",
+                "name"
+            ],
+            "title": "Test"
+        }
+    }
+}

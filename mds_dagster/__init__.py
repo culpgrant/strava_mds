@@ -1,14 +1,26 @@
+import warnings
+
 from dagster import Definitions, EnvVar, load_assets_from_modules
 
+from core_library.dagster import dagster_asset_check_factory
 from mds_dagster.assets.ingest import strava_asset
 from mds_dagster.assets.staging_data import strava_asset_staging
+from mds_dagster.jobs.assets.ingest.strava_jobs import strava_job
 from mds_dagster.resources.duck_db_resource import MDSDuckDBResource
 from mds_dagster.resources.ingest.strava_resource import StravaHandlerResource
 from mds_dagster.resources.polars_parquet_io_manager import (
     polars_parquet_io_manager_resource,
 )
+from mds_dagster.schedules import strava_schedule
+from mds_dagster.sensors.slack_on_failure_sensor import make_slack_on_failure_sensor
+
+warnings.simplefilter("ignore")
 
 all_assets = load_assets_from_modules([strava_asset, strava_asset_staging])
+all_asset_checks = dagster_asset_check_factory.dagster_load_all_checks()
+
+all_sensors = [make_slack_on_failure_sensor()]
+
 
 defs = Definitions(
     assets=all_assets,
@@ -24,4 +36,8 @@ defs = Definitions(
         "polars_parquet_io_manager_strava_ingest": polars_parquet_io_manager_resource,
         "duckdb": MDSDuckDBResource(database=EnvVar("MDS_DUCK_DB")),
     },
+    jobs=[strava_job],
+    schedules=[strava_schedule],
+    asset_checks=all_asset_checks,
+    sensors=all_sensors,
 )

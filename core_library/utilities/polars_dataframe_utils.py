@@ -70,9 +70,57 @@ def pl_aggregate_column(
     """
     result = None
 
+    if df.is_empty():
+        mds_logger.info("Empty Dataframe")
+        return result
+
     if agg_type == "max":
         result = df.select(pl.col(column_name)).max()[column_name][0]
     elif agg_type == "min":
         result = df.select(pl.col(column_name)).min()[column_name][0]
 
     return result
+
+
+def pl_log_dataframe(
+    df: pl.DataFrame,
+    n_rows: int = 3,
+    order_by: Optional[str] = None,
+    ascending: Optional[bool] = None,
+) -> None:
+    """
+    Log a dataframe helpful for viewing at different stages
+
+    :param df: Polars dataframe to log
+    :type df: pl.DataFrame
+    :param n_rows: Number of records to show
+    :type n_rows: int
+    :param order_by: If you want to order the dataframe, defaults to None
+    :type order_by: Optional[str], optional
+    :param ascending: Sort order if passing in order_by col, defaults to None
+    :type ascending: Optional[bool], optional
+    """
+    # TODO: Implement this functionality
+    if (order_by and not ascending) or (ascending and not order_by):
+        Exception("order_by and ascending arguments are both required")
+
+    mds_logger.info("Dataframe Preview:")
+    # TODO: If there are a lot of columns it is weird
+
+    mds_logger.info(df)
+    return None
+
+
+def pl_check_empty_df(df: pl.DataFrame) -> bool:
+    """
+    Check if a dataframe is empty
+
+    :param df: Input dataframe
+    :type df: pl.DataFrame
+    :return: True if empty
+    :rtype: bool
+    """
+    if df.is_empty():
+        mds_logger.info("Dataframe is emtpy")
+        return True
+    return False

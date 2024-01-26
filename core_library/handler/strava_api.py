@@ -151,7 +151,7 @@ class StravaHandler:
         self,
         before_epoch: Optional[int] = None,
         after_epoch: Optional[int] = None,
-        per_page: Optional[int] = None,
+        per_page: Optional[int] = 100,
     ) -> Generator[List[Dict], None, None]:
         """
         Get activity data from the authorized athlete
@@ -165,18 +165,16 @@ class StravaHandler:
         :yield: Data from API
         :rtype: Generator[List[Dict], None, None]
         """
-        mds_logger.info(
-            f"Fetching Athelete Activities - {before_epoch} - {after_epoch}"
-        )
+        mds_logger.info("Fetching Athelete Activities")
 
         query_params = {}
 
         # Format the Query Params
         if per_page:
             query_params["per_page"] = per_page
-        elif before_epoch:
+        if before_epoch:
             query_params["before"] = before_epoch
-        elif after_epoch:
+        if after_epoch:
             query_params["after"] = after_epoch
 
         data = self._get(endpoint="athlete/activities", query_params=query_params)

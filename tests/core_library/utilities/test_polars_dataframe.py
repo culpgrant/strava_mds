@@ -1,4 +1,5 @@
 import polars as pl
+import pytest
 from polars.testing import assert_frame_equal
 
 from core_library.utilities import polars_dataframe_utils
@@ -86,3 +87,42 @@ def test_pl_aggregate_column():
     # Assert
     assert max_age == 25
     assert min_age == 22
+
+    # Arrange
+    source_df = pl.DataFrame()
+
+    # Act
+    result = polars_dataframe_utils.pl_aggregate_column(source_df, "test", "max")
+
+    assert result is None
+
+
+def test_pl_log_dataframe():
+    source_df = pl.DataFrame()
+
+    result = polars_dataframe_utils.pl_log_dataframe(source_df)
+
+    assert result is None
+
+    with pytest.raises(Exception) as exc:
+        result = polars_dataframe_utils.pl_log_dataframe(source_df, order_by="test")
+        assert str(exc.value) == "order_by and ascending arguments are both required"
+
+
+def test_pl_check_empty_df():
+    source_df = pl.DataFrame()
+
+    result = polars_dataframe_utils.pl_check_empty_df(source_df)
+
+    assert result is True
+
+    source_df = pl.DataFrame(
+        {
+            "Name": ["Alice", "Bob", "Charlie", "David"],
+            "Age": [25, 22, 24, 23],
+        }
+    )
+
+    result = polars_dataframe_utils.pl_check_empty_df(source_df)
+
+    assert result is False

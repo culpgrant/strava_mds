@@ -218,7 +218,7 @@ def test_get_activities(mock_post, mock_get):
     mock_get.assert_called_with(
         "https://www.strava.com/api/v3/athlete/activities",
         headers={"Authorization": "Bearer fake_access_token"},
-        params={"before": 1},
+        params={"before": 1, "per_page": 100},
     )
 
     # Test with query_params - after_epoc
@@ -228,7 +228,7 @@ def test_get_activities(mock_post, mock_get):
     mock_get.assert_called_with(
         "https://www.strava.com/api/v3/athlete/activities",
         headers={"Authorization": "Bearer fake_access_token"},
-        params={"after": 1},
+        params={"after": 1, "per_page": 100},
     )
 
 

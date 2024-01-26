@@ -2,7 +2,7 @@
 Strava API Handler
 """
 from functools import lru_cache
-from typing import Generator, List, Optional
+from typing import Dict, Generator, List, Optional
 
 import requests
 
@@ -102,7 +102,6 @@ class StravaHandler:
         """
         return {"Authorization": f"Bearer {self.generate_token()}"}
 
-    # def get_athlete(self) -> Generator[dict, None, None]:
     def get_athlete(self) -> List:
         """
         Get Athelete Data - Includes basic information on athlete
@@ -148,7 +147,40 @@ class StravaHandler:
             lod.append(next(data))
         return lod
 
-    def _get(self, endpoint: str) -> Generator:
+    def get_activities(
+        self,
+        before_epoch: Optional[int] = None,
+        after_epoch: Optional[int] = None,
+        per_page: Optional[int] = 100,
+    ) -> Generator[List[Dict], None, None]:
+        """
+        Get activity data from the authorized athlete
+
+        :param before_epoch: Epoch timestamp to retreive data from before that time, defaults to None
+        :type before_epoch: Optional[int], optional
+        :param after_epoch: Epoch timestamp to retreive data from after that time, defaults to None
+        :type after_epoch: Optional[int], optional
+        :param per_page: Number of activities to return in call, defaults to None
+
+        :yield: Data from API
+        :rtype: Generator[List[Dict], None, None]
+        """
+        mds_logger.info("Fetching Athelete Activities")
+
+        query_params = {}
+
+        # Format the Query Params
+        if per_page:
+            query_params["per_page"] = per_page
+        if before_epoch:
+            query_params["before"] = before_epoch
+        if after_epoch:
+            query_params["after"] = after_epoch
+
+        data = self._get(endpoint="athlete/activities", query_params=query_params)
+        yield from data
+
+    def _get(self, endpoint: str, query_params: Optional[Dict] = None) -> Generator:
         """
         Helper Method for get requests
 
@@ -159,10 +191,10 @@ class StravaHandler:
         :rtype: dict
         """
         url = f"{self.base_url}{endpoint}"
-        mds_logger.info(f"Get Request: {url}")
+        mds_logger.info(f"Get Request: {url} - params {query_params}")
         headers = self.get_api_headers()
 
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, params=query_params)
 
         if response.status_code == 200:
             yield response.json()

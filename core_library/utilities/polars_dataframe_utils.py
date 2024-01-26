@@ -1,7 +1,8 @@
 """
 Utilities for working with polars dataframes
 """
-from typing import Dict, Optional
+from datetime import datetime
+from typing import Dict, List, Optional, Union
 
 import polars as pl
 from polars.type_aliases import FrameInitTypes
@@ -35,3 +36,91 @@ def pl_df_cols_to_standard(df: pl.DataFrame):
         df = df.rename({col: new_col})
 
     return df
+
+
+def pl_concat_dfs(list_of_dfs: List[pl.DataFrame], **kwargs) -> pl.DataFrame:
+    """
+    Helpful function to take in a list of dataframes and concatenate them
+
+    :param list_of_dfs: List of dataframes
+    :type list_of_dfs: List[pl.DataFrame]
+    :return: One dataframe
+    :rtype: pl.DataFrame
+    """
+
+    result_df = pl.concat(items=list_of_dfs, **kwargs)
+
+    return result_df
+
+
+def pl_aggregate_column(
+    df: pl.DataFrame, column_name: str, agg_type: str
+) -> Union[int, str, datetime, None]:
+    """
+    Aggregate a single column and get back one record as a native python type
+
+    :param df: Dataframe to aggregate
+    :type df: pl.DataFrame
+    :param column_name: Column to aggregate
+    :type column_name: str
+    :param agg_type: type of aggregation to use
+    :type agg_type: str
+    :return: Result from dataframe in native python type
+    :rtype: Union[int, str, datetime, None]
+    """
+    result = None
+
+    if df.is_empty():
+        mds_logger.info("Empty Dataframe")
+        return result
+
+    if agg_type == "max":
+        result = df.select(pl.col(column_name)).max()[column_name][0]
+    elif agg_type == "min":
+        result = df.select(pl.col(column_name)).min()[column_name][0]
+
+    return result
+
+
+def pl_log_dataframe(
+    df: pl.DataFrame,
+    n_rows: int = 3,
+    order_by: Optional[str] = None,
+    ascending: Optional[bool] = None,
+) -> None:
+    """
+    Log a dataframe helpful for viewing at different stages
+
+    :param df: Polars dataframe to log
+    :type df: pl.DataFrame
+    :param n_rows: Number of records to show
+    :type n_rows: int
+    :param order_by: If you want to order the dataframe, defaults to None
+    :type order_by: Optional[str], optional
+    :param ascending: Sort order if passing in order_by col, defaults to None
+    :type ascending: Optional[bool], optional
+    """
+    # TODO: Implement this functionality
+    if (order_by and not ascending) or (ascending and not order_by):
+        Exception("order_by and ascending arguments are both required")
+
+    mds_logger.info("Dataframe Preview:")
+    # TODO: If there are a lot of columns it is weird
+
+    mds_logger.info(df)
+    return None
+
+
+def pl_check_empty_df(df: pl.DataFrame) -> bool:
+    """
+    Check if a dataframe is empty
+
+    :param df: Input dataframe
+    :type df: pl.DataFrame
+    :return: True if empty
+    :rtype: bool
+    """
+    if df.is_empty():
+        mds_logger.info("Dataframe is emtpy")
+        return True
+    return False

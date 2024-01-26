@@ -175,6 +175,65 @@ def test_athlete_stats(mock_post, mock_get):
 
 @patch("core_library.handler.strava_api.requests.get")
 @patch("core_library.handler.strava_api.requests.post")
+def test_get_activities(mock_post, mock_get):
+    # Mock post (get token)
+    mock_post().status_code = 200
+    mock_post().json.return_value = {"access_token": "fake_access_token"}
+
+    fake_client_id = "fake_client_id"
+    fake_client_secret = "fake_client_secret"
+    expected_data = [{"id": 2910, "activity": "fake_value"}]
+
+    # Test with authorization_code
+    strava_class = strava_api.StravaHandler(
+        strava_client_id=fake_client_id,
+        strava_client_secret=fake_client_secret,
+        grant_type="authorization_code",
+        code="fake_code",
+    )
+
+    # Mock results
+    mock_get().status_code = 200
+    mock_get().json.return_value = {"id": 2910, "activity": "fake_value"}
+
+    # Call function
+    result = strava_class.get_activities()
+
+    assert list(result) == expected_data
+
+    # Test with query_params - per_page
+    result = strava_class.get_activities(per_page=1)
+
+    assert list(result) == expected_data
+    mock_get.assert_called_with(
+        "https://www.strava.com/api/v3/athlete/activities",
+        headers={"Authorization": "Bearer fake_access_token"},
+        params={"per_page": 1},
+    )
+
+    # Test with query_params - before_epoc
+    result = strava_class.get_activities(before_epoch=1)
+
+    assert list(result) == expected_data
+    mock_get.assert_called_with(
+        "https://www.strava.com/api/v3/athlete/activities",
+        headers={"Authorization": "Bearer fake_access_token"},
+        params={"before": 1, "per_page": 100},
+    )
+
+    # Test with query_params - after_epoc
+    result = strava_class.get_activities(after_epoch=1)
+
+    assert list(result) == expected_data
+    mock_get.assert_called_with(
+        "https://www.strava.com/api/v3/athlete/activities",
+        headers={"Authorization": "Bearer fake_access_token"},
+        params={"after": 1, "per_page": 100},
+    )
+
+
+@patch("core_library.handler.strava_api.requests.get")
+@patch("core_library.handler.strava_api.requests.post")
 def test__get(mock_post, mock_get):
     # Mock post (get token)
     mock_post().status_code = 200

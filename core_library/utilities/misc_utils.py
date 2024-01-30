@@ -1,7 +1,9 @@
 """
-Custom Logging Config
+Utilites for miscellaneous reasons
 """
 import logging
+from hashlib import sha256
+from typing import Any
 
 
 def setup_console_logger(
@@ -39,3 +41,16 @@ def setup_console_logger(
         logger.addHandler(console_handler)
 
     return logger
+
+
+def hash_func(value: Any) -> str:
+    """
+    Hash an input using sha256
+
+    :param value: Input to hash
+    :type value: Any
+    :return: SHA256 hash
+    :rtype: str
+    """
+    result = sha256(value.encode("utf-8")).hexdigest()
+    return result

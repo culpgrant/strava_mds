@@ -7,7 +7,7 @@ from typing import Dict, List, Optional, Union
 import polars as pl
 from polars.type_aliases import FrameInitTypes
 
-from core_library.utilities.custom_log import setup_console_logger
+from core_library.utilities.misc_utils import hash_func, setup_console_logger
 from core_library.utilities.text_utils import cols_text_to_standard
 
 mds_logger = setup_console_logger()
@@ -124,3 +124,74 @@ def pl_check_empty_df(df: pl.DataFrame) -> bool:
         mds_logger.info("Dataframe is emtpy")
         return True
     return False
+
+
+def pl_concat_str(
+    df: pl.DataFrame, cols: Union[List[str], str], alias: str, ignore_nulls: bool = True
+) -> pl.DataFrame:
+    """
+    Concatenate columns together
+
+    :param df: Input Dataframe
+    :type df: pl.DataFrame
+    :param cols: Columns to concatenate together
+    :type cols: Union[List[str], str]
+    :param alias: Output column name
+    :type alias: str
+    :param ignore_nulls: If false nulls will returrn nulls, defaults to True
+    :type ignore_nulls: bool, optional
+    :return: Output Dataframe
+    :rtype: pl.DataFrame
+    """
+    df = df.with_columns(pl.concat_str(cols, ignore_nulls=ignore_nulls).alias(alias))
+    return df
+
+
+def pl_hash_func(
+    df: pl.DataFrame,
+    cols: Union[str, List],
+    alias: str = "KEY_HASH",
+    drop_concat_col: bool = False,
+) -> pl.DataFrame:
+    """
+    Dataframe hash a list of cols - will automatically concat them together if multiple
+
+    :param df: Dataframe to hash
+    :type df: pl.DataFrame
+    :param cols: Cols to hash
+    :type cols: Union[str, List]
+    :param alias: New column name, defaults to 'KEY_HASH'
+    :type alias: str, optional
+    :return: Hashed Dataframe
+    :rtype: pl.DataFrame
+    """
+    df = pl_concat_str(df, cols=cols, alias="KEY_CONCAT")
+
+    df = df.with_columns(pl.col("KEY_CONCAT").map_elements(hash_func).alias(alias))
+
+    if drop_concat_col:
+        df = df.drop("KEY_CONCAT")
+
+    return df
+
+
+def pl_add_standard_cols(df: pl.DataFrame, hash_cols: List[str]) -> pl.DataFrame:
+    """
+    Adds standard cols to a dataframe on ingestions
+
+    :param df: Dataframe to add cols to
+    :type df: pl.DataFrame
+    :param hash_cols: What columns to hash
+    :type hash_cols: List[str]
+    :return: Standard Dataframe
+    :rtype: pl.DataFrame
+    """
+    mds_logger.info("Adding hash cols and ingestion time to dataframe")
+
+    # Add a hash column of the unique keys
+    df = pl_hash_func(df, hash_cols)
+
+    # Add an ETL timestamp column
+    df = df.with_columns(INGESTION_DATE_TIME=datetime.now())
+
+    return df

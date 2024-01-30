@@ -17,7 +17,7 @@ pytest = "^7.4.3"
 dbt-core = "1.6.0"
 tenacity = "^8.2.3"
 sphinx = "7.1.2"
-polars = {version = "0.19.12", extras = ["pyarrow"]}
+polars = {version = "0.20.6", extras = ["pyarrow"]}
 dagster-polars = "^0.1.5"
 dagster-duckdb = "0.22.0"
 pyright = "^1.1.345"

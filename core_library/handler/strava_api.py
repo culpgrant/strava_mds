@@ -7,7 +7,7 @@ from typing import Dict, Generator, List, Optional
 import requests
 
 # from tenacity import retry, stop_after_attempt, wait_fixed
-from core_library.utilities.custom_log import setup_console_logger
+from core_library.utilities.misc_utils import setup_console_logger
 
 mds_logger = setup_console_logger()
 

@@ -46,7 +46,7 @@ def remove_special_charachters(
     return pattern.sub(replace_char, text)
 
 
-def cols_text_to_standard(text: str, *args, **kwargs) -> str:
+def cols_text_to_standard(text: str, upper: bool = True, *args, **kwargs) -> str:
     """
     Convert text to the standard naming convention (for dataframes)
 
@@ -57,4 +57,6 @@ def cols_text_to_standard(text: str, *args, **kwargs) -> str:
     """
     text = remove_special_charachters(text, *args, **kwargs)
     text = camel_case_to_snake_case(text, *args, **kwargs)
+    if upper:
+        text = text.upper()
     return text

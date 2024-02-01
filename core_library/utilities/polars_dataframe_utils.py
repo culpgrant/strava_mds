@@ -28,11 +28,11 @@ def pl_create_df(data: FrameInitTypes, schema: Optional[Dict] = None) -> pl.Data
     return df
 
 
-def pl_df_cols_to_standard(df: pl.DataFrame):
+def pl_df_cols_to_standard(df: pl.DataFrame, upper: bool = True):
     """Convert polars dataframe columns to standard used"""
     mds_logger.info("Converting dataframe cols to standard")
     for col in df.columns:
-        new_col = cols_text_to_standard(col)
+        new_col = cols_text_to_standard(col, upper=upper)
         df = df.rename({col: new_col})
 
     return df

@@ -9,7 +9,7 @@ from dagster import (
     asset,
 )
 
-from core_library.utilities.custom_log import setup_console_logger
+from core_library.utilities.misc_utils import setup_console_logger
 from mds_dagster.resources.duck_db_resource import MDSDuckDBResource
 
 mds_logger = setup_console_logger()

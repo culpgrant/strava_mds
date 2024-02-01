@@ -34,7 +34,7 @@ def test_pl_df_cols_to_standard():
     # Arrange
     input_df = pl.DataFrame({"$name": [1], "testCol": [1], "final_col": [1]})
 
-    expected_df = pl.DataFrame({"_name": [1], "test_col": [1], "final_col": [1]})
+    expected_df = pl.DataFrame({"_NAME": [1], "TEST_COL": [1], "FINAL_COL": [1]})
 
     # Act
     result_df = polars_dataframe_utils.pl_df_cols_to_standard(input_df)

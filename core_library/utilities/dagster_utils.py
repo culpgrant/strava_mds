@@ -5,7 +5,7 @@ from typing import Union
 
 from dagster import AssetExecutionContext, AssetKey
 
-from core_library.utilities.custom_log import setup_console_logger
+from core_library.utilities.misc_utils import setup_console_logger
 
 mds_logger = setup_console_logger()
 

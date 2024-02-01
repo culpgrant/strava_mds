@@ -33,7 +33,19 @@ def test_remove_special_charachters(input: str, expected: str):
     argnames=("input", "expected"),
     argvalues=[("FooBar", "foo_bar"), ("Foo$Bar", "foo__bar"), ("$Foo", "_foo")],
 )
-def test_cols_text_to_standard(input: str, expected: str):
-    result = text_utils.cols_text_to_standard(text=input)
+def test_cols_text_to_standard_lower(input: str, expected: str):
+    # This is testing for lower
+    result = text_utils.cols_text_to_standard(text=input, upper=False)
+
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    argnames=("input", "expected"),
+    argvalues=[("FooBar", "FOO_BAR"), ("Foo$Bar", "FOO__BAR"), ("$Foo", "_FOO")],
+)
+def test_cols_text_to_standard_upper(input: str, expected: str):
+    # This is testing for upper
+    result = text_utils.cols_text_to_standard(text=input, upper=True)
 
     assert result == expected

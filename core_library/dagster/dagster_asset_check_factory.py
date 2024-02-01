@@ -1,6 +1,7 @@
 """
 Python module that loads YAML config to Dagster Asset Checks from YAML
 """
+from enum import Enum
 from typing import Generator, List
 
 import polars as pl
@@ -13,15 +14,24 @@ from dagster import (
 from jinja2 import Template
 from jsonschema.exceptions import ValidationError
 
-from core_library.utilities.custom_log import setup_console_logger
+from core_library.utilities.data_utils import key_values_in_lod
 from core_library.utilities.file_utils import (
     get_files_directory,
     json_read_file,
     yaml_read_file,
     yaml_validate_schema,
 )
+from core_library.utilities.misc_utils import setup_console_logger
 
 mds_logger = setup_console_logger()
+
+
+class Engines(Enum):
+    """
+    Engines we have defined for Asset Checks
+    """
+
+    polars = "polars"
 
 
 class PolarsAssetChecks:
@@ -101,13 +111,13 @@ def load_yaml_asset_check_files(
             continue
 
         # Validate the engine value
-        ## We actually might not need this
-        # try:
-        #     engines = key_values_in_lod(asset_check_def.get('data_tests'), select_key="engine")
-        #     assert set(engines).issubset(valid_engines)
-        # except AssertionError:
-        #     mds_logger.error(f"File: {file} failed engine check. Must be a valid engine of {valid_engines}")
-        #     continue
+        engines = key_values_in_lod(
+            asset_check_def.get("data_tests"), select_key="engine"
+        )
+        for engine in engines:
+            assert hasattr(
+                Engines, engine
+            ), f"Asset Check Factory Error - File {file} has invalid engine."
 
         # TODO: We need to validate all of the test_names that they are valid test names
 
@@ -185,7 +195,7 @@ def create_dagster_check(
                 context.resources.polars_parquet_io_manager_strava_ingest.base_dir
             )
 
-            mds_logger.info(f"Setting Directory = {base_directory} for parquet file")
+            mds_logger.info(f"Setting Directory for parquet - {base_directory}")
             df = pl.read_parquet(source=f"{base_directory}/{asset_name}.parquet")  # noqa: F841
             code_to_run = polars_asset_checks.main_handler(
                 test_name=check_name, column=column_name

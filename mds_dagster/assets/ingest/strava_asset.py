@@ -7,19 +7,19 @@ from typing import Union
 import polars as pl
 from dagster import AssetExecutionContext, Config, DailyPartitionsDefinition, asset
 
-from core_library.utilities.custom_log import setup_console_logger
 from core_library.utilities.data_utils import key_values_in_lod
 from core_library.utilities.date_utils import (
     date_to_epoch,
     string_to_date,
 )
+from core_library.utilities.misc_utils import setup_console_logger
 from core_library.utilities.polars_dataframe_utils import (
+    pl_add_standard_cols,
     pl_aggregate_column,
     pl_check_empty_df,
     pl_concat_dfs,
     pl_create_df,
     pl_df_cols_to_standard,
-    pl_log_dataframe,
 )
 from mds_dagster.resources.ingest.strava_resource import StravaHandlerResource
 
@@ -60,6 +60,7 @@ def raw_ingest_strava_athlete(
 
     pl_df = pl_create_df(data)
     pl_df = pl_df_cols_to_standard(pl_df)
+    pl_df = pl_add_standard_cols(pl_df, hash_cols=["ID"])
 
     context.add_output_metadata(metadata={"number_of_records": len(pl_df)})
     return pl_df
@@ -83,12 +84,12 @@ def raw_ingest_strava_equipment(
     # Get the Equipment IDs of the athlete
     # TODO: We should put this into a function
     equipment_dict = (
-        raw_ingest_strava_athlete.select("shoes", "bikes")
+        raw_ingest_strava_athlete.select("SHOES", "BIKES")
         .head(1)
         .to_dict(as_series=False)
     )
-    shoe_ids = key_values_in_lod(equipment_dict["shoes"][0], "id")
-    bike_ids = key_values_in_lod(equipment_dict["bikes"][0], "id")
+    shoe_ids = key_values_in_lod(equipment_dict["SHOES"][0], "id")
+    bike_ids = key_values_in_lod(equipment_dict["BIKES"][0], "id")
     list_of_ids = shoe_ids + bike_ids
     mds_logger.info(f"IDs: {list_of_ids}")
 
@@ -96,6 +97,7 @@ def raw_ingest_strava_equipment(
     data = strava_api_resource.get_client().get_equipment(list_of_ids)
     pl_df = pl_create_df(data)
     pl_df = pl_df_cols_to_standard(pl_df)
+    pl_df = pl_add_standard_cols(pl_df, hash_cols=["ID"])
 
     context.add_output_metadata(
         metadata={
@@ -123,13 +125,14 @@ def raw_ingest_strava_athlete_stats(
     mds_logger.info("Getting Athlete IDs that have been ingested")
     # TODO: We should put this into a function
     athlete_ids = (
-        raw_ingest_strava_athlete.select("id").head(1).to_dict(as_series=False)["id"]
+        raw_ingest_strava_athlete.select("ID").head(1).to_dict(as_series=False)["ID"]
     )
 
     mds_logger.info("Ingesting athletes basic stats")
     data = strava_api_resource.get_client().get_athlete_stats(athlete_ids)
     pl_df = pl_create_df(data)
     pl_df = pl_df_cols_to_standard(pl_df)
+    pl_df = pl_add_standard_cols(pl_df, hash_cols=["ALL_RUN_TOTALS"])
 
     context.add_output_metadata(
         metadata={
@@ -150,7 +153,6 @@ def raw_ingest_strava_athlete_stats(
 def raw_ingest_strava_athlete_activities(
     context: AssetExecutionContext,
     strava_api_resource: StravaHandlerResource,
-    config: StravaIngestConfig,
 ) -> Union[pl.DataFrame, None]:
     """
     Activities from the Athlete - partitioned asset
@@ -181,8 +183,7 @@ def raw_ingest_strava_athlete_activities(
         return None
 
     pl_df = pl_df_cols_to_standard(pl_df)
-
-    pl_log_dataframe(pl_df)
+    pl_df = pl_add_standard_cols(pl_df, hash_cols=["ID"])
 
     mds_logger.info("Creating metadata")
     most_recent_activity_date = pl_aggregate_column(pl_df, "start_date", "max")

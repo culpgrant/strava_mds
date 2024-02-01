@@ -5,17 +5,29 @@ data_tests:
     tests:
       - name: not_null
         columns:
-          - id
+          - ID
+          - INGESTION_DATE_TIME
       - name: unique
         columns:
-          - id
+          - ID
+          - INGESTION_DATE_TIME
 
   - asset: raw_ingest_strava_equipment
     engine: polars
     tests:
       - name: not_null
         columns:
-          - id
+          - ID
       - name: unique
         columns:
-          - id
+          - ID
+
+  - asset: raw_ingest_strava_athlete_activities
+    engine: polars
+    tests:
+      - name: not_null
+        columns:
+          - ID
+      - name: unique
+        columns:
+          - ID

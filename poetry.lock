@@ -439,13 +439,13 @@ pytz = ">2021.1"
 
 [[package]]
 name = "dagster"
-version = "1.6.0"
+version = "1.6.3"
 description = "Dagster is an orchestration platform for the development, production, and observation of data assets."
 optional = false
 python-versions = "*"
 files = [
-    {file = "dagster-1.6.0-py3-none-any.whl", hash = "sha256:3a027adc7a24680bb8f6c8a6ec7694233e35e48d6330736319e4f59142b70d59"},
-    {file = "dagster-1.6.0.tar.gz", hash = "sha256:9ecb53455a2c73b2f79ae251416b548dfcae5ebae30892dac666617ae460a3de"},
+    {file = "dagster-1.6.3-py3-none-any.whl", hash = "sha256:43eb92102872d89a4ac2016ea45c4f930ac5ac4c7159d07ec20ec856140d9cbf"},
+    {file = "dagster-1.6.3.tar.gz", hash = "sha256:2432e7419f615222f5fcfe90fea8cefc55aef54f3212a83377490eb0fc562659"},
 ]
 
 [package.dependencies]
@@ -453,13 +453,13 @@ alembic = ">=1.2.1,<1.6.3 || >1.6.3,<1.7.0 || >1.7.0,<1.11.0 || >1.11.0"
 click = ">=5.0"
 coloredlogs = ">=6.1,<=14.0"
 croniter = ">=0.3.34"
-dagster-pipes = "1.6.0"
+dagster-pipes = "1.6.3"
 docstring-parser = "*"
 grpcio = ">=1.44.0"
 grpcio-health-checking = ">=1.44.0"
 Jinja2 = "*"
 packaging = ">=20.9"
-pendulum = ">=0.7.0,<3"
+pendulum = {version = ">=0.7.0,<4", markers = "python_version >= \"3.9\""}
 protobuf = ">=3.20.0,<5"
 psutil = {version = ">=1.0", markers = "platform_system == \"Windows\""}
 pydantic = ">1.10.0,<1.10.7 || >1.10.7,<3"
@@ -490,17 +490,17 @@ test = ["buildkite-test-collector", "docker", "grpcio-tools (>=1.44.0)", "mock (
 
 [[package]]
 name = "dagster-duckdb"
-version = "0.22.0"
+version = "0.22.3"
 description = "Package for DuckDB-specific Dagster framework op and resource components."
 optional = false
 python-versions = "*"
 files = [
-    {file = "dagster-duckdb-0.22.0.tar.gz", hash = "sha256:0a6d6990d1aa8769b375a210f4ddb1bfe53426a545abe2d282e6467ed8c921d3"},
-    {file = "dagster_duckdb-0.22.0-py3-none-any.whl", hash = "sha256:1517caa447c7c3a2b79da13989db4cf64636ec470c7fde0a058c3c7264edb3a3"},
+    {file = "dagster-duckdb-0.22.3.tar.gz", hash = "sha256:689743d5ac7da1536dde422256754e6a42f4d17d7e980bd82b62c81d7cc32ff6"},
+    {file = "dagster_duckdb-0.22.3-py3-none-any.whl", hash = "sha256:fb915c2d4b723d902d465689267152f68e82a96225af858ea8146cb6af71de4b"},
 ]
 
 [package.dependencies]
-dagster = "1.6.0"
+dagster = "1.6.3"
 duckdb = "*"
 
 [package.extras]
@@ -509,17 +509,17 @@ pyspark = ["pyspark (>=3)"]
 
 [[package]]
 name = "dagster-graphql"
-version = "1.6.0"
+version = "1.6.3"
 description = "The GraphQL frontend to python dagster."
 optional = false
 python-versions = "*"
 files = [
-    {file = "dagster-graphql-1.6.0.tar.gz", hash = "sha256:c5aee8c43245a60096a36d886fac318ae34115dd39b30775ab92a3bd952771f9"},
-    {file = "dagster_graphql-1.6.0-py3-none-any.whl", hash = "sha256:36922ae1b183062a37d34aba49aa1fca20a283ac4286ece4b5d1f794c816ee70"},
+    {file = "dagster-graphql-1.6.3.tar.gz", hash = "sha256:e4bb7c69859d029c3d98d6fe86835eb68a7ad0caeb35cb5be67502755b2ddf25"},
+    {file = "dagster_graphql-1.6.3-py3-none-any.whl", hash = "sha256:a08d0a21546f567c0096f8e69358036225c10ed3a9ba0f4d47ab77c178789641"},
 ]
 
 [package.dependencies]
-dagster = "1.6.0"
+dagster = "1.6.3"
 gql = {version = ">=3,<4", extras = ["requests"]}
 graphene = ">=3,<4"
 requests = "*"
@@ -527,13 +527,13 @@ starlette = "*"
 
 [[package]]
 name = "dagster-pipes"
-version = "1.6.0"
+version = "1.6.3"
 description = "Toolkit for Dagster integrations with transform logic outside of Dagster"
 optional = false
 python-versions = "*"
 files = [
-    {file = "dagster-pipes-1.6.0.tar.gz", hash = "sha256:b3561c4606da1220b2718e38c68fa724f01f72f82262b20614d183a0e78d8bff"},
-    {file = "dagster_pipes-1.6.0-py3-none-any.whl", hash = "sha256:c6f77cc170038822a0312aa6701eb566aa52c02345584174806024431d9c3f3b"},
+    {file = "dagster-pipes-1.6.3.tar.gz", hash = "sha256:677d172c3d0458fc147d61e656e49ed97dbbe089b8a0a579d8a8582c359e6204"},
+    {file = "dagster_pipes-1.6.3-py3-none-any.whl", hash = "sha256:7a7a283b607dbbb95d3002c62aeb4d9a77327c9e32bd06d0cd8d9724def5eeb6"},
 ]
 
 [[package]]
@@ -561,35 +561,35 @@ gcp = ["dagster-gcp (>=0.19.5)"]
 
 [[package]]
 name = "dagster-slack"
-version = "0.22.0"
+version = "0.22.3"
 description = "A Slack client resource for posting to Slack"
 optional = false
 python-versions = "*"
 files = [
-    {file = "dagster-slack-0.22.0.tar.gz", hash = "sha256:1c6e720bc0b0c61c5d2360f9f5574d24965ad24a85af99835cd7f824d106518d"},
-    {file = "dagster_slack-0.22.0-py3-none-any.whl", hash = "sha256:676c46bbbdd0885b3e008c98238a92963ed74c24db4e2aeae6030d71f6ca9b04"},
+    {file = "dagster-slack-0.22.3.tar.gz", hash = "sha256:d77de2b67e19121b309b4c135833150cc2e1c8c894199c6005febf5ef46bc19f"},
+    {file = "dagster_slack-0.22.3-py3-none-any.whl", hash = "sha256:2988b7b20cb22c80eb23ee96e9066255c1b4886fc21324846b89f502cdb5e796"},
 ]
 
 [package.dependencies]
-dagster = "1.6.0"
+dagster = "1.6.3"
 slack-sdk = "*"
 
 [[package]]
 name = "dagster-webserver"
-version = "1.6.0"
+version = "1.6.3"
 description = "Web UI for dagster."
 optional = false
 python-versions = "*"
 files = [
-    {file = "dagster-webserver-1.6.0.tar.gz", hash = "sha256:70ee48c3cfd9600936cfdb6823f5fa2273d10068a328b25394ae49057fc289cf"},
-    {file = "dagster_webserver-1.6.0-py3-none-any.whl", hash = "sha256:5221a527f7b37e04c8686e8f3f0c020663ce39eb1f7f49a798111666473009dd"},
+    {file = "dagster-webserver-1.6.3.tar.gz", hash = "sha256:7e5dac6adc327fbdaa6d762b8b222a4a159e77a34f7bfed4c87f7aa1d64a6cfb"},
+    {file = "dagster_webserver-1.6.3-py3-none-any.whl", hash = "sha256:1b777f34a4e241c24d817c98b8fbdd6922b68256a02ecfce40a56ee4509c734f"},
 ]
 
 [package.dependencies]
 click = ">=7.0,<9.0"
-dagster = "1.6.0"
-dagster-graphql = "1.6.0"
-starlette = "*"
+dagster = "1.6.3"
+dagster-graphql = "1.6.3"
+starlette = "!=0.36.0"
 uvicorn = {version = "*", extras = ["standard"]}
 
 [package.extras]
@@ -3340,4 +3340,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "87cd2bc41cf2327f3f507a775f2247c619c9566fd486caba35ca9de7ec7a83cb"
+content-hash = "788be331279aa5e4a77003e1d3ee4899bfb5be1671abccda0823b4b08ec20705"

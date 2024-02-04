@@ -4,6 +4,5 @@
   "schedule": ["before 8am on Saturday"],
   "prHourlyLimit": 2,
   "gitAuthor": "Renovate Bot (automated) <renovate@google.com>",
-  "mergeCommitMessageFormat": "[Renovate] Update @babel/core to {newVersion} ({previousVersion})",
   "labels": ["renovate", "dependencies", "update"]
 }

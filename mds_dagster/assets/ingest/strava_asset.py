@@ -43,9 +43,9 @@ class StravaIngestConfig(Config):
 
 
 @asset(
-    metadata={"developer": "culpgrant21@gmail.com", "data_sensativity": "medium"},
+    metadata={"developer": "culpgrant21@gmail.com", "data_sensitivity": "medium"},
     compute_kind="python",
-    group_name="ingestions",
+    group_name="ingestion",
     io_manager_key="polars_parquet_io_manager_strava_ingest",
 )
 def raw_ingest_strava_athlete(
@@ -67,9 +67,9 @@ def raw_ingest_strava_athlete(
 
 
 @asset(
-    metadata={"developer": "culpgrant21@gmail.com", "data_sensativity": "low"},
+    metadata={"developer": "culpgrant21@gmail.com", "data_sensitivity": "low"},
     compute_kind="python",
-    group_name="ingestions",
+    group_name="ingestion",
     io_manager_key="polars_parquet_io_manager_strava_ingest",
 )
 def raw_ingest_strava_equipment(
@@ -108,9 +108,9 @@ def raw_ingest_strava_equipment(
 
 
 @asset(
-    metadata={"developer": "culpgrant21@gmail.com", "data_sensativity": "low"},
+    metadata={"developer": "culpgrant21@gmail.com", "data_sensitivity": "low"},
     compute_kind="python",
-    group_name="ingestions",
+    group_name="ingestion",
     io_manager_key="polars_parquet_io_manager_strava_ingest",
 )
 def raw_ingest_strava_athlete_stats(
@@ -143,9 +143,9 @@ def raw_ingest_strava_athlete_stats(
 
 
 @asset(
-    metadata={"developer": "culpgrant21@gmail.com", "data_sensativity": "medium"},
+    metadata={"developer": "culpgrant21@gmail.com", "data_sensitivity": "medium"},
     compute_kind="python",
-    group_name="ingestions",
+    group_name="ingestion",
     io_manager_key="polars_parquet_io_manager_strava_ingest",
     deps=[raw_ingest_strava_athlete],
     partitions_def=DailyPartitionsDefinition(start_date="2021-01-01"),
@@ -172,7 +172,7 @@ def raw_ingest_strava_athlete_activities(
     # We are passing in a generator of data of List[Dict]
     list_of_dfs = []
     for activities in list_of_activities:
-        mds_logger.info(f"Recieved # of activities: {len(activities)}")
+        mds_logger.info(f"Received # of activities: {len(activities)}")
         pl_df = pl_create_df(activities)
         list_of_dfs.append(pl_df)
 
@@ -186,14 +186,14 @@ def raw_ingest_strava_athlete_activities(
     pl_df = pl_add_standard_cols(pl_df, hash_cols=["ID"])
 
     mds_logger.info("Creating metadata")
-    most_recent_activity_date = pl_aggregate_column(pl_df, "start_date", "max")
-    earliest_activity_date = pl_aggregate_column(pl_df, "start_date", "min")
+    most_recent_activity_date = pl_aggregate_column(pl_df, "START_DATE", "MAX")
+    earliest_activity_date = pl_aggregate_column(pl_df, "START_DATE", "MIN")
 
     context.add_output_metadata(
         metadata={
             "number_of_activities": len(pl_df),
-            "most_recient_activity_date": most_recent_activity_date,
-            "earliest_activitiy_date": earliest_activity_date,
+            "most_recent_activity_date": most_recent_activity_date,
+            "earliest_activity_date": earliest_activity_date,
         }
     )
 

@@ -7,11 +7,6 @@ x-environment: &commonEnvironment
 services:
   dagster_webserver:
     environment: *commonEnvironment
-    # environment:
-    #   - strava_api_client_id=${strava_api_client_id}
-    #   - strava_api_client_secret=${strava_api_client_secret}
-    #   - strava_api_refresh_token=${strava_api_refresh_token}
-    #   - slack_fitness_mds_token=${slack_fitness_mds_token}
     # This builds from the local Dockerfile
     build:
       context: .

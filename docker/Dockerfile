@@ -14,9 +14,12 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # Copy only requirements to cache them
 WORKDIR /code
+
+# This is unable to find the files
 COPY poetry.lock pyproject.toml /code/
 
-RUN poetry install --without dev --no-root && rm -rf ${POETRY_CACHE_DIR}
+#RUN poetry install --without dev --no-root && rm -rf ${POETRY_CACHE_DIR}
+RUN poetry install --without dev --no-root
 
 # Copy all files
 COPY . /code

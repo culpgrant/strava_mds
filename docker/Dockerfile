@@ -10,6 +10,7 @@ ENV \
   DAGSTER_HOME='/opt/dagster/dagster_home/'
 
 # Install Poetry
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # Copy only requirements to cache them

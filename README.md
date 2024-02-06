@@ -1,5 +1,5 @@
 ## Strava Modern Data Stack
-This is a project used to analyse my strava data using the modern data stack
+This is a project used to analyze my strava data using the modern data stack
 
 ## Project Inspiration
 Please check out the other amazing projects that inspired me and this project

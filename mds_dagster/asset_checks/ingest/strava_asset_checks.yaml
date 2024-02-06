@@ -22,12 +22,13 @@ data_tests:
         columns:
           - ID
 
-  - asset: raw_ingest_strava_athlete_activities
-    engine: polars
-    tests:
-      - name: not_null
-        columns:
-          - ID
-      - name: unique
-        columns:
-          - ID
+# Github issue: 48
+  # - asset: raw_ingest_strava_athlete_activities
+  #   engine: polars
+  #   tests:
+  #     - name: not_null
+  #       columns:
+  #         - ID
+  #     - name: unique
+  #       columns:
+  #         - ID

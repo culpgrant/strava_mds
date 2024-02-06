@@ -1,0 +1,34 @@
+x-environment: &commonEnvironment
+    - strava_api_client_id=${strava_api_client_id}
+    - strava_api_client_secret=${strava_api_client_secret}
+    - strava_api_refresh_token=${strava_api_refresh_token}
+    - slack_fitness_mds_token=${slack_fitness_mds_token}
+
+services:
+  dagster_webserver:
+    environment: *commonEnvironment
+    # This builds from the local Dockerfile
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    container_name: strava_mds_dagster_webserver
+    #command: dagster dev
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/code
+      - ${HOME}/dagster_home:/opt/dagster/dagster_home
+
+  dagster_daemon:
+    environment: *commonEnvironment
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    container_name: strava_mds_dagster_daemon
+    entrypoint:
+      - dagster-daemon
+      - run
+    depends_on:
+      - dagster_webserver
+    volumes:
+      - ${HOME}/dagster_home:/opt/dagster/dagster_home

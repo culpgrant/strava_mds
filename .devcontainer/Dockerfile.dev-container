@@ -1,0 +1,25 @@
+# Install Python version - from devcontainer.json
+ARG VARIANT
+FROM mcr.microsoft.com/devcontainers/python:1-${VARIANT}
+
+# Environment Variables
+ENV \
+  # Poetry's configuration:
+  POETRY_NO_INTERACTION=1 \
+  POETRY_VIRTUALENVS_CREATE=false \
+  POETRY_CACHE_DIR='/var/cache/pypoetry' \
+  POETRY_HOME='/usr/local'
+
+# Install Poetry
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl -sSL https://install.python-poetry.org | python3 -
+
+# Copy only requirements to cache them
+WORKDIR /env_install/
+
+# Copy these files into the env_install folder
+COPY poetry.lock pyproject.toml /env_install/
+
+# Install the environment here
+WORKDIR /env_install/
+RUN poetry install && rm -rf $POETRY_CACHE_DIR

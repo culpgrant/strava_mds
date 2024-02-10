@@ -16,16 +16,17 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 # Copy only requirements to cache them
 WORKDIR /code
 
-# This is unable to find the files
 COPY poetry.lock pyproject.toml /code/
+COPY docker/workspace.yaml ${DAGSTER_HOME}
 
 #RUN poetry install --without dev --no-root && rm -rf ${POETRY_CACHE_DIR}
 RUN poetry install --without dev --no-root
 
 # Copy all files
-COPY . /code
+# TODO: I think if we get the code location grpc service working we might not need thi
+#COPY . /code
 
 # Expose Port
-EXPOSE 3000
+#EXPOSE 3000 Moved to docker-compose
 
-ENTRYPOINT ["dagster-webserver", "-h", "0.0.0.0", "-p", "3000"]
+#ENTRYPOINT ["dagster-webserver", "-h", "0.0.0.0", "-p", "3000"] Moved to docker-compose

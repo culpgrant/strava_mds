@@ -20,6 +20,7 @@ from core_library.utilities.polars_dataframe_utils import (
     pl_concat_dfs,
     pl_create_df,
     pl_df_cols_to_standard,
+    pl_log_dataframe,
 )
 from mds_dagster.resources.ingest.strava_resource import StravaHandlerResource
 
@@ -56,6 +57,7 @@ def raw_ingest_strava_athlete(
     Includes basic information on athlete
     """
     mds_logger.info("Ingesting basic info on authenticated athlete")
+    mds_logger.info("Newest code")
     data = strava_api_resource.get_client().get_athlete()
 
     pl_df = pl_create_df(data)
@@ -185,9 +187,11 @@ def raw_ingest_strava_athlete_activities(
     pl_df = pl_df_cols_to_standard(pl_df)
     pl_df = pl_add_standard_cols(pl_df, hash_cols=["ID"])
 
+    pl_log_dataframe(pl_df, n_rows=1, only_cols=True)
     mds_logger.info("Creating metadata")
-    most_recent_activity_date = pl_aggregate_column(pl_df, "START_DATE", "MAX")
-    earliest_activity_date = pl_aggregate_column(pl_df, "START_DATE", "MIN")
+
+    most_recent_activity_date = pl_aggregate_column(pl_df, "START_DATE", "max")
+    earliest_activity_date = pl_aggregate_column(pl_df, "START_DATE", "min")
 
     context.add_output_metadata(
         metadata={

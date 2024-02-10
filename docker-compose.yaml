@@ -5,6 +5,21 @@ x-environment: &commonEnvironment
     - slack_fitness_mds_token=${slack_fitness_mds_token}
 
 services:
+  # This service runs the gRPC server that loads your user code, in both dagster-webserver
+  # and dagster-daemon. By setting DAGSTER_CURRENT_IMAGE to its own image, we tell the
+  # run launcher to use this same image when launching runs in a new container as well.
+  # Multiple containers like this can be deployed separately - each just needs to run on
+  # its own port, and have its own entry in the workspace.yaml file that's loaded by the
+  dagster_code:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.user_code
+    container_name: strava_mds_dagster_code
+    image: strava_mds_dagster_code_image
+    restart: always
+    networks:
+      - dagster_network
+
   dagster_webserver:
     environment: *commonEnvironment
     # This builds from the local Dockerfile
@@ -12,12 +27,25 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
     container_name: strava_mds_dagster_webserver
-    #command: dagster dev
+    image: strava_mds_dagster_webserver_image
+    entrypoint:
+      - dagster-webserver
+      - "-h"
+      - "0.0.0.0"
+      - "-p"
+      - "3000"
+    expose:
+      - 3000
     ports:
       - 3000:3000
     volumes:
-      - .:/code
+      #- .:/code turn this back off
+      # Setting a volume from the original dagster_home definition
       - ${HOME}/dagster_home:/opt/dagster/dagster_home
+    depends_on:
+      - dagster_code
+    networks:
+      - dagster_network
 
   dagster_daemon:
     environment: *commonEnvironment
@@ -25,10 +53,21 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
     container_name: strava_mds_dagster_daemon
+    image: strava_mds_dagster_daemon_image
+    restart: on-failure
     entrypoint:
       - dagster-daemon
       - run
     depends_on:
-      - dagster_webserver
+      - dagster_code
     volumes:
+    # - .:/code this will get it so that dagster will run the new code
+    #  - .:/code
       - ${HOME}/dagster_home:/opt/dagster/dagster_home
+    networks:
+      - dagster_network
+
+networks:
+  dagster_network:
+    driver: bridge
+    name: dagster_network

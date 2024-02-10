@@ -87,6 +87,7 @@ def pl_log_dataframe(
     n_rows: int = 3,
     order_by: Optional[str] = None,
     ascending: Optional[bool] = None,
+    only_cols: Optional[bool] = False,
 ) -> None:
     """
     Log a dataframe helpful for viewing at different stages
@@ -103,6 +104,10 @@ def pl_log_dataframe(
     # TODO: Implement this functionality
     if (order_by and not ascending) or (ascending and not order_by):
         Exception("order_by and ascending arguments are both required")
+
+    if only_cols:
+        mds_logger.info(f"DF Columns: {df.columns}")
+        return None
 
     mds_logger.info("Dataframe Preview:")
     # TODO: If there are a lot of columns it is weird

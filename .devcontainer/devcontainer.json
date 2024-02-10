@@ -3,15 +3,19 @@
 {
 	"name": "strava_mds_dev_container",
 	// // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	//"image": "mcr.microsoft.com/devcontainers/python:1-3.11-bookworm",
+	"image": "culpgrant/strava_mds_dev_container:latest",
 
 	// Docker file
-	"build": {
-		"context": "..",
-		"dockerfile": "Dockerfile.dev-container",
-		"args": {
-			"VARIANT": "3.11-bookworm"
-		}
+	// "build": {
+	// 	"context": "..",
+	// 	"dockerfile": "Dockerfile.dev-container",
+	// 	"args": {
+	// 		"PY_VERSION": "3.11-bookworm"
+	// 	}
+	// },
+
+	"remoteEnv": {
+		"PYTHONPATH": "${containerEnv:PATH}:${workspaceFolder}/strava_mds"
 	},
 
 	//Specify the container name

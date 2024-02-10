@@ -15,3 +15,5 @@ https://developer.mend.io/github/culpgrant/strava_mds
 # TODO:
 - look into package called dbt-coverage
 - A unit test to make sure every function is added in the __all__ in the __init__ file (Why again?)
+
+- still need to finalize Dagster working via docker locally

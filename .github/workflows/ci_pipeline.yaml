@@ -98,7 +98,7 @@ jobs:
             #----------------------------------------------
 
             - name: Run Pre-commit Hooks
-              uses: pre-commit/action@v3.0.0
+              uses: pre-commit/action@v3.0.1
               with:
                 extra_args:
                   --color=always --from-ref ${{ github.event.pull_request.base.sha }} --to-ref ${{ github.event.pull_request.head.sha }}

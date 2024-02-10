@@ -1,9 +1,18 @@
 name: Publish Docker image
 
 on:
-    push:
-        branches:
-        - main
+    workflow_call:
+      inputs:
+        username:
+          description: 'A username passed from the caller workflow'
+          default: 'john-doe'
+          required: false
+          type: string
+
+# on:
+#     push:
+#         branches:
+#         - main
 
 jobs:
   build_push_to_registry:

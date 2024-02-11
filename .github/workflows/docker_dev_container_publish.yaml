@@ -1,23 +1,15 @@
 name: Build and Publish Devcontainer Docker Image
 
 on:
-    workflow_call:
-      inputs:
-        username:
-          description: 'A username passed from the caller workflow'
-          default: 'john-doe'
-          required: false
-          type: string
+    push:
+        branches:
+        - main
     workflow_dispatch:
 
-# on:
-#     push:
-#         branches:
-#         - main
 
 jobs:
   build_push_to_registry:
-    name: Push Docker image to Docker Hub
+    name: Push Devcontainer Docker image to Docker Hub
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
@@ -40,7 +32,7 @@ jobs:
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           context: .
-          file: ./devcontainer/Dockerfile.dev-container
+          file: ./.devcontainer/Dockerfile.dev-container
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

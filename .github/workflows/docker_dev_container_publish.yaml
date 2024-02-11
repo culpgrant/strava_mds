@@ -1,19 +1,11 @@
 name: Build and Publish Devcontainer Docker Image
 
 on:
-    workflow_call:
-      inputs:
-        username:
-          description: 'A username passed from the caller workflow'
-          default: 'john-doe'
-          required: false
-          type: string
+    push:
+        branches:
+        - main
     workflow_dispatch:
 
-# on:
-#     push:
-#         branches:
-#         - main
 
 jobs:
   build_push_to_registry:

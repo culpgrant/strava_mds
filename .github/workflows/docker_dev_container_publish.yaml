@@ -1,4 +1,4 @@
-name: Publish Docker image
+name: Build and Publish Devcontainer Docker Image
 
 on:
     workflow_call:
@@ -8,6 +8,7 @@ on:
           default: 'john-doe'
           required: false
           type: string
+    workflow_dispatch:
 
 # on:
 #     push:

@@ -22,6 +22,7 @@ jobs:
         timeout-minutes: 8
         permissions:
             id-token: write
+            contents: read
         env:
             name: pypi
             url: https://pypi.org/project/gculp-data-eng-package
@@ -31,7 +32,6 @@ jobs:
             - name: Checkout Repo
               uses: actions/checkout@v4
               with:
-                persist-credentials: false
                 ref: ${{ inputs.sha }}
 
             - name: Setup Python

@@ -17,9 +17,12 @@ env:
     PACKAGE_NAME: 'gculp_data_eng_package'
 
 jobs:
-    build:
+    build_publish_pypi:
         runs-on: ubuntu-latest
         timeout-minutes: 8
+        env:
+            name: pypi
+            url: https://pypi.org/project/gculp-data-eng-package
         outputs:
           package-version: ${{ steps.get_version.outputs.VERSION}}
         steps:
@@ -76,26 +79,11 @@ jobs:
             - name: Build Package
               run: poetry build
 
-            - name: Upload wheel
-              uses: actions/upload-artifact@v4
-              with:
-                name: wheel-${{ env.PACKAGE_NAME }}-${{ steps.get_version.outputs.package_version }}-py3-none-any
-                path: dist/*.whl
-
-    publish-to-pypi:
-        needs: [build]
-        timeout-minutes: 8
-        env:
-          name: pypi
-          url: https://pypi.org/project/gculp-data-eng-package
-        runs-on: ubuntu-latest
-        permissions:
-            id-token: write
-        steps:
-            - name: Download wheel
-              uses: actions/download-artifact@v4
-              with:
-                path: dist
+            # - name: Upload wheel
+            #   uses: actions/upload-artifact@v4
+            #   with:
+            #     name: ${{ env.PACKAGE_NAME }}-${{ steps.get_version.outputs.package_version }}-py3-none-any
+            #     path: dist/*.whl
 
             - name: Publish to PyPI
               if: inputs.dry-run == false
@@ -104,7 +92,7 @@ jobs:
                 verbose: true
 
     publish-to-github:
-        needs: [publish-to-pypi, build]
+        needs: [build_publish_pypi]
         timeout-minutes: 8
         runs-on: ubuntu-latest
         env:

@@ -20,9 +20,9 @@ jobs:
     build_publish_pypi:
         runs-on: ubuntu-latest
         timeout-minutes: 8
-        permissions:
-            id-token: write
-            contents: read
+        # permissions:
+        #     id-token: write
+        #     contents: read
         env:
             name: pypi
             url: https://pypi.org/project/gculp-data-eng-package

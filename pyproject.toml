@@ -2,7 +2,7 @@
 name = "strava-mds"
 version = "0.1.0"
 description = "Grant Culp Strava Modern Data Stack (Open Source) Project"
-authors = ["Grant Culp <grant.culp@kraftheinz.com>"]
+authors = ["Grant Culp <culpgrant21@gmail.com>"]
 packages = [
     { include = "core_library" },
 ]

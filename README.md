@@ -18,3 +18,5 @@ https://developer.mend.io/github/culpgrant/strava_mds
 
 - still need to finalize Dagster working via docker locally
 - DBT add a test that all yml files in the DBT project start with `_`
+- Run the CI Pipeline as apart of the Release Pipeline
+- And Update the CI Pipline to have python as an environment variable

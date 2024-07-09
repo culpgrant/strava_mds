@@ -14,6 +14,7 @@ on:
 
 env:
     PYTHON_VERSION: '3.11'
+    PACKAGE_NAME: 'gculp_data_eng_package'
 
 jobs:
     build:
@@ -78,7 +79,7 @@ jobs:
             - name: Upload wheel
               uses: actions/upload-artifact@v4
               with:
-                name: wheel-${{ steps.get_version.outputs.package_version }}-py3-none-any
+                name: wheel-${{ env.PACKAGE_NAME }}-${{ steps.get_version.outputs.package_version }}-py3-none-any
                 path: dist/*.whl
 
     publish-to-pypi:
@@ -91,7 +92,7 @@ jobs:
         permissions:
             id-token: write
         steps:
-            - name: Download wheels
+            - name: Download wheel
               uses: actions/download-artifact@v4
               with:
                 path: dist

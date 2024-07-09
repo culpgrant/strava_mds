@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+    - name: strava
+      schema: staging
+      loader: dagster
+      loaded_at_field: INGESTION_DATE_TIME
+
+      tables:
+        - name: staging_strava_athlete
+        - name: staging_strava_athlete_stats
+        - name: staging_strava_equipmnet

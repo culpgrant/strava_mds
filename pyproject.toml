@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "strava-mds"
+name = "gculp-data-eng-package"
 version = "0.1.0"
-description = "Grant Culp Strava Modern Data Stack (Open Source) Project"
+description = "Grant Culp Modern Data Stack Open Source Project"
 authors = ["Grant Culp <culpgrant21@gmail.com>"]
 packages = [
     { include = "core_library" },

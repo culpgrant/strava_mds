@@ -1,0 +1,121 @@
+name: Release
+
+on:
+    workflow_dispatch:
+        inputs:
+            # Latest commit to include, otherwise use latest on main
+            sha:
+                description: Commit SHA
+                type: string
+            dry-run:
+                description: Dry Run (do not create release and do not publish to pypi)
+                type: boolean
+                default: false
+
+env:
+    PYTHON_VERSION: '3.11'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        timeout-minutes: 8
+        outputs:
+          package-version: ${{ steps.get_version.outputs.VERSION}}
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+              with:
+                persist-credentials: false
+                fetch-depth: 0
+                ref: ${{ inputs.sha }}
+
+            - name: Setup Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: ${{ env.PYTHON_VERSION }}
+
+            - name: Install poetry
+              uses: snok/install-poetry@v1
+              with:
+                  virtualenvs-create: true
+                  virtualenvs-in-project: true
+                  installer-parallel: true
+
+            #----------------------------------------------
+            # load cached venv if cache exists
+            #----------------------------------------------
+            - name: Load cached venv
+              id: cached-poetry-dependencies
+              uses: actions/cache@v4
+              with:
+                  path: .venv
+                  key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
+            #----------------------------------------------
+            # install dependencies if cache does not exist
+            #----------------------------------------------
+            - name: Install dependencies
+              if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+              run: poetry install --no-interaction --no-root
+
+            #----------------------------------------------
+            # install root project
+            #----------------------------------------------
+            - name: Install project
+              run: poetry install --no-interaction
+
+            #----------------------------------------------
+            # Get version from pyproject
+            #----------------------------------------------
+            - name: Get version from pyproject
+              id: get_version
+              run: |
+                echo "VERSION::$(poetry version -s)" >> $GITHUB_OUTPUT
+
+            #----------------------------------------------
+            # Create a Git Tag and push it to the repo
+            #----------------------------------------------
+            - name: Create and Push Tag
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                VERSION=$(poetry version -s)
+                git tag v$VERSION
+                git push origin v$VERSION
+
+            - name: Build Package
+              run: poetry build
+
+    publish-to-pypi:
+        needs: [build]
+        timeout-minutes: 8
+        env:
+          name: pypi
+          url: https://pypi.org/project/gculp-data-eng-package
+        runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+        steps:
+            - name: Download sdists and wheels
+              uses: actions/download-artifact@v4
+              with:
+                path: dist
+                merge-multiple: true
+
+            - name: Publish to PyPI
+              if: inputs.dry-run == false
+              uses: pypa/gh-action-pypi-publish@release/v1
+              with:
+                verbose: true
+
+    publish-to-github:
+        needs: [publish-to-pypi, build]
+        timeout-minutes: 8
+        runs-on: ubuntu-latest
+        env:
+          PACKAGE_VERSION: ${{ needs.build.outputs.package-version}}
+
+        steps:
+          - uses: actions/checkout@v4
+            with:
+                ref: ${{ inputs.sha }}

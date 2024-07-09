@@ -47,7 +47,7 @@ jobs:
                 installer-parallel: true
 
             #----------------------------------------------
-            #       load cached venv if cache exists
+            # load cached venv if cache exists
             #----------------------------------------------
             - name: Load cached venv
               id: cached-poetry-dependencies
@@ -64,7 +64,7 @@ jobs:
               run: poetry install --no-interaction --no-root
 
             #----------------------------------------------
-            # install your root project
+            # install root project
             #----------------------------------------------
             - name: Install project
               run: poetry install --no-interaction

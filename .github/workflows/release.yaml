@@ -20,6 +20,8 @@ jobs:
     build_publish_pypi:
         runs-on: ubuntu-latest
         timeout-minutes: 8
+        permissions:
+            id-token: write
         env:
             name: pypi
             url: https://pypi.org/project/gculp-data-eng-package
@@ -29,8 +31,6 @@ jobs:
             - name: Checkout Repo
               uses: actions/checkout@v4
               with:
-                persist-credentials: false
-                fetch-depth: 0
                 ref: ${{ inputs.sha }}
 
             - name: Setup Python
@@ -96,7 +96,7 @@ jobs:
         timeout-minutes: 8
         runs-on: ubuntu-latest
         env:
-          PACKAGE_VERSION: ${{ needs.build.outputs.package-version}}
+          PACKAGE_VERSION: ${{ needs.build_publish_pypi.outputs.package-version}}
 
         steps:
           - uses: actions/checkout@v4

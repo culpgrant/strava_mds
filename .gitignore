@@ -19,3 +19,8 @@ docs/_build
 # This is causing an issue with the resources .py files
 *.duckdb
 *.parquet
+
+# DBT
+target/
+dbt_packages/
+logs/

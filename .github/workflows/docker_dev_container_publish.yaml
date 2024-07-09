@@ -6,7 +6,6 @@ on:
         - main
     workflow_dispatch:
 
-
 jobs:
   build_push_to_registry:
     name: Push Devcontainer Docker image to Docker Hub

@@ -17,3 +17,4 @@ https://developer.mend.io/github/culpgrant/strava_mds
 - A unit test to make sure every function is added in the __all__ in the __init__ file (Why again?)
 
 - still need to finalize Dagster working via docker locally
+- DBT add a test that all yml files in the DBT project start with `_`

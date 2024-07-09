@@ -72,17 +72,6 @@ jobs:
               run: |
                 echo "package_version=$(poetry version -s)" >> $GITHUB_OUTPUT
 
-            #----------------------------------------------
-            # Create a Git Tag and push it to the repo
-            #----------------------------------------------
-            - name: Create and Push Tag
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                VERSION=$(poetry version -s)
-                git tag v${{ steps.get_version.outputs.package_version}}
-                git push origin v${{ steps.get_version.outputs.package_version}}
-
             - name: Build Package
               run: poetry build
 

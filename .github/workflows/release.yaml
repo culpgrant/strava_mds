@@ -91,9 +91,9 @@ jobs:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 TAG: ${{ steps.get_version.outputs.package_version }}
               run: |
-                  gh release create "$tag" \
-                      --repo="$GITHUB_REPOSITORY" \
-                      --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+                  gh release create "$TAG" \
+                    --repo="$GITHUB_REPOSITORY" \
+                    --title="${GITHUB_REPOSITORY#*/} ${TAG#v}" \
 
             - name: Upload sdist to GitHub release
               run: gh release upload $TAG $FILES --clobber

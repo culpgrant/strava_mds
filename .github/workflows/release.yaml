@@ -80,24 +80,20 @@ jobs:
             - name: Build Package
               run: poetry build
 
-            - name: Publish to PyPI
-              if: inputs.dry-run == false
-              uses: pypa/gh-action-pypi-publish@release/v1
-              with:
-                verbose: true
-
-            # - name: Create GitHub release
-            #   id: github-release
-            # This was supposed to create the release notes
-            #   uses: release-drafter/release-drafter@v6
+            # - name: Publish to PyPI
+            #   if: inputs.dry-run == false
+            #   uses: pypa/gh-action-pypi-publish@release/v1
             #   with:
-            #     config-name: release-drafter-python.yml
-            #     name: Python Polars ${{ steps.get_version.outputs.package_version }}
-            #     tag: ${{ steps.get_version.outputs.package_version }}
-            #     version: ${{ steps.get_version.outputs.package_version }}
-            #     commitish: ${{ inputs.sha || github.sha }}
-            #   env:
-            #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #     verbose: true
+
+            - name: Create Github Release
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                TAG: ${{ steps.get_version.outputs.package_version }}
+              run: |
+                  gh release create "$tag" \
+                      --repo="$GITHUB_REPOSITORY" \
+                      --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
 
             - name: Upload sdist to GitHub release
               run: gh release upload $TAG $FILES --clobber

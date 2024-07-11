@@ -22,7 +22,8 @@ jobs:
         timeout-minutes: 8
         permissions:
             id-token: write
-            contents: read
+            contents: write
+
         env:
             name: pypi
             url: https://pypi.org/project/gculp-data-eng-package

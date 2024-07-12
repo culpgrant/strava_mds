@@ -20,3 +20,5 @@ https://developer.mend.io/github/culpgrant/strava_mds
 - DBT add a test that all yml files in the DBT project start with `_`
 - Run the CI Pipeline as apart of the Release Pipeline
 - And Update the CI Pipline to have python as an environment variable
+
+- For the release pipeline how can I get the description like Polars has (Performance Improvements, Features, Bugs, Documentation, Misc) and then list the PR in those areas

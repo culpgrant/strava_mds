@@ -81,11 +81,11 @@ jobs:
             - name: Build Package
               run: poetry build
 
-            # - name: Publish to PyPI
-            #   if: inputs.dry-run == false
-            #   uses: pypa/gh-action-pypi-publish@release/v1
-            #   with:
-            #     verbose: true
+            - name: Publish to PyPI
+              if: inputs.dry-run == false
+              uses: pypa/gh-action-pypi-publish@release/v1
+              with:
+                verbose: true
 
             - name: Create Github Release
               env:

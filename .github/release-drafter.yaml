@@ -1,0 +1,47 @@
+exclude-labels:
+    - skip changelog
+    - release
+
+autolabeler:
+  - label: build
+    title:
+      - '/^build/'
+  - label: internal
+    title:
+      - '/^(chore|ci|refactor|test)/'
+  - label: documentation
+    title:
+      - '/^docs/'
+  - label: enhancement
+    title:
+      - '/^feat/'
+  - label: fix
+    title:
+      - '/^fix/'
+  - label: performance
+    title:
+      - '/^perf/'
+  - label: release
+    title:
+      - '/^release/'
+
+template: |
+  $CHANGES
+
+  Thank you to all our contributors for making this release possible!
+  $CONTRIBUTORS
+
+categories:
+  - title: 🚀 Performance improvements
+    labels: performance
+  - title: ✨ Enhancements
+    labels: enhancement
+  - title: 🐞 Bug fixes
+    labels: fix
+  - title: 📖 Documentation
+    labels: documentation
+  - title: 📦 Build system
+    labels: build
+  - title: 🛠️ Other improvements
+    labels: internal
+    collapse-after: 5

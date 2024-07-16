@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gculp-data-eng-package"
-version = "0.1.0"
+version = "0.1.1"
 description = "Grant Culp Modern Data Stack Open Source Project"
 authors = ["Grant Culp <culpgrant21@gmail.com>"]
 packages = [

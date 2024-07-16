@@ -44,4 +44,4 @@ categories:
     labels: build
   - title: 🛠️ Other improvements
     labels: internal
-    collapse-after: 5
+    collapse-after: 4

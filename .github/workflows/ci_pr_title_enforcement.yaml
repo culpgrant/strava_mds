@@ -9,7 +9,7 @@ permissions:
     pull-requests: write
 
 jobs:
-    pr_title:
+    pr_title_enforcement:
         runs-on: ubuntu-latest
         timeout-minutes: 8
         steps:
@@ -18,9 +18,9 @@ jobs:
               with:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Label pull request
-              uses: release-drafter/release-drafter@v6
-              with:
-                disable-releaser: true
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            # - name: Label pull request
+            #   uses: release-drafter/release-drafter@v6
+            #   with:
+            #     disable-releaser: true
+            #   env:
+            #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

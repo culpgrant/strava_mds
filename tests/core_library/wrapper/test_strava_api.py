@@ -2,17 +2,17 @@ from unittest.mock import patch
 
 import pytest
 
-from core_library.handler import strava_api
+from core_library.wrapper import strava_api
 
 
-@patch("core_library.handler.strava_api.requests.post")
+@patch("core_library.wrapper.strava_api.requests.post")
 def test_generate_token(mock_post):
     fake_client_id = "fake_client_id"
     fake_client_secret = "fake_client_secret"
     fake_access_token = "fake_access_token"
 
     # Test with authorization_code
-    strava_class = strava_api.StravaHandler(
+    strava_class = strava_api.StravaWrapper(
         strava_client_id=fake_client_id,
         strava_client_secret=fake_client_secret,
         grant_type="authorization_code",
@@ -24,7 +24,7 @@ def test_generate_token(mock_post):
     mock_post().json.return_value = {"access_token": fake_access_token}
     assert strava_class.generate_token() == fake_access_token
 
-    strava_class = strava_api.StravaHandler(
+    strava_class = strava_api.StravaWrapper(
         strava_client_id=fake_client_id,
         strava_client_secret=fake_client_secret,
         grant_type="refresh_token",
@@ -35,7 +35,7 @@ def test_generate_token(mock_post):
 
     # Test exceptions
     with pytest.raises(Exception) as context:
-        strava_class = strava_api.StravaHandler(
+        strava_class = strava_api.StravaWrapper(
             strava_client_id=fake_client_id,
             strava_client_secret=fake_client_secret,
             grant_type="adsf",
@@ -44,7 +44,7 @@ def test_generate_token(mock_post):
 
     mock_post().status_code = 400
     with pytest.raises(Exception) as context:
-        strava_class = strava_api.StravaHandler(
+        strava_class = strava_api.StravaWrapper(
             strava_client_id=fake_client_id,
             strava_client_secret=fake_client_secret,
             grant_type="refresh_token",
@@ -55,7 +55,7 @@ def test_generate_token(mock_post):
     mock_post().status_code = 200
     mock_post().json.return_value = {}
     with pytest.raises(Exception) as context:
-        strava_class = strava_api.StravaHandler(
+        strava_class = strava_api.StravaWrapper(
             strava_client_id=fake_client_id,
             strava_client_secret=fake_client_secret,
             grant_type="refresh_token",
@@ -64,14 +64,14 @@ def test_generate_token(mock_post):
     assert "No token found in response" in str(context.value)
 
 
-@patch("core_library.handler.strava_api.requests.post")
+@patch("core_library.wrapper.strava_api.requests.post")
 def test_get_api_headers(mock_post):
     fake_client_id = "fake_client_id"
     fake_client_secret = "fake_client_secret"
     fake_access_token = "fake_access_token"
 
     # Test with authorization_code
-    strava_class = strava_api.StravaHandler(
+    strava_class = strava_api.StravaWrapper(
         strava_client_id=fake_client_id,
         strava_client_secret=fake_client_secret,
         grant_type="authorization_code",
@@ -86,8 +86,8 @@ def test_get_api_headers(mock_post):
     }
 
 
-@patch("core_library.handler.strava_api.requests.get")
-@patch("core_library.handler.strava_api.requests.post")
+@patch("core_library.wrapper.strava_api.requests.get")
+@patch("core_library.wrapper.strava_api.requests.post")
 def test_get_athlete(mock_post, mock_get):
     # Mock post (get token)
     mock_post().status_code = 200
@@ -98,7 +98,7 @@ def test_get_athlete(mock_post, mock_get):
     expected_data = [{"id": 2910, "username": "fake_value"}]
 
     # Test with authorization_code
-    strava_class = strava_api.StravaHandler(
+    strava_class = strava_api.StravaWrapper(
         strava_client_id=fake_client_id,
         strava_client_secret=fake_client_secret,
         grant_type="authorization_code",
@@ -115,8 +115,8 @@ def test_get_athlete(mock_post, mock_get):
     assert result == expected_data
 
 
-@patch("core_library.handler.strava_api.requests.get")
-@patch("core_library.handler.strava_api.requests.post")
+@patch("core_library.wrapper.strava_api.requests.get")
+@patch("core_library.wrapper.strava_api.requests.post")
 def test_get_equipment(mock_post, mock_get):
     # Mock post (get token)
     mock_post().status_code = 200
@@ -127,7 +127,7 @@ def test_get_equipment(mock_post, mock_get):
     expected_data = [{"id": 2910, "equipment": "fake_value"}]
 
     # Test with authorization_code
-    strava_class = strava_api.StravaHandler(
+    strava_class = strava_api.StravaWrapper(
         strava_client_id=fake_client_id,
         strava_client_secret=fake_client_secret,
         grant_type="authorization_code",
@@ -144,8 +144,8 @@ def test_get_equipment(mock_post, mock_get):
     assert result == expected_data
 
 
-@patch("core_library.handler.strava_api.requests.get")
-@patch("core_library.handler.strava_api.requests.post")
+@patch("core_library.wrapper.strava_api.requests.get")
+@patch("core_library.wrapper.strava_api.requests.post")
 def test_athlete_stats(mock_post, mock_get):
     # Mock post (get token)
     mock_post().status_code = 200
@@ -156,7 +156,7 @@ def test_athlete_stats(mock_post, mock_get):
     expected_data = [{"id": 2910, "stats": "fake_value"}]
 
     # Test with authorization_code
-    strava_class = strava_api.StravaHandler(
+    strava_class = strava_api.StravaWrapper(
         strava_client_id=fake_client_id,
         strava_client_secret=fake_client_secret,
         grant_type="authorization_code",
@@ -173,8 +173,8 @@ def test_athlete_stats(mock_post, mock_get):
     assert result == expected_data
 
 
-@patch("core_library.handler.strava_api.requests.get")
-@patch("core_library.handler.strava_api.requests.post")
+@patch("core_library.wrapper.strava_api.requests.get")
+@patch("core_library.wrapper.strava_api.requests.post")
 def test_get_activities(mock_post, mock_get):
     # Mock post (get token)
     mock_post().status_code = 200
@@ -185,7 +185,7 @@ def test_get_activities(mock_post, mock_get):
     expected_data = [{"id": 2910, "activity": "fake_value"}]
 
     # Test with authorization_code
-    strava_class = strava_api.StravaHandler(
+    strava_class = strava_api.StravaWrapper(
         strava_client_id=fake_client_id,
         strava_client_secret=fake_client_secret,
         grant_type="authorization_code",
@@ -232,8 +232,8 @@ def test_get_activities(mock_post, mock_get):
     )
 
 
-@patch("core_library.handler.strava_api.requests.get")
-@patch("core_library.handler.strava_api.requests.post")
+@patch("core_library.wrapper.strava_api.requests.get")
+@patch("core_library.wrapper.strava_api.requests.post")
 def test__get(mock_post, mock_get):
     # Mock post (get token)
     mock_post().status_code = 200
@@ -243,7 +243,7 @@ def test__get(mock_post, mock_get):
     fake_client_secret = "fake_client_secret"
 
     # Test with authorization_code
-    strava_class = strava_api.StravaHandler(
+    strava_class = strava_api.StravaWrapper(
         strava_client_id=fake_client_id,
         strava_client_secret=fake_client_secret,
         grant_type="authorization_code",

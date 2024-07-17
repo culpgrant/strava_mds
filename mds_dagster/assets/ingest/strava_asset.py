@@ -22,7 +22,7 @@ from core_library.utilities.polars_dataframe_utils import (
     pl_df_cols_to_standard,
     pl_log_dataframe,
 )
-from mds_dagster.resources.ingest.strava_resource import StravaHandlerResource
+from mds_dagster.resources.ingest.strava_resource import StravaWrapperResource
 
 mds_logger = setup_console_logger()
 
@@ -51,7 +51,7 @@ class StravaIngestConfig(Config):
 )
 def raw_ingest_strava_athlete(
     context: AssetExecutionContext,
-    strava_api_resource: StravaHandlerResource,
+    strava_api_resource: StravaWrapperResource,
 ) -> pl.DataFrame:
     """
     Includes basic information on athlete
@@ -76,7 +76,7 @@ def raw_ingest_strava_athlete(
 )
 def raw_ingest_strava_equipment(
     context: AssetExecutionContext,
-    strava_api_resource: StravaHandlerResource,
+    strava_api_resource: StravaWrapperResource,
     raw_ingest_strava_athlete: pl.DataFrame,
 ) -> pl.DataFrame:
     """
@@ -117,7 +117,7 @@ def raw_ingest_strava_equipment(
 )
 def raw_ingest_strava_athlete_stats(
     context: AssetExecutionContext,
-    strava_api_resource: StravaHandlerResource,
+    strava_api_resource: StravaWrapperResource,
     raw_ingest_strava_athlete: pl.DataFrame,
 ) -> pl.DataFrame:
     """
@@ -154,7 +154,7 @@ def raw_ingest_strava_athlete_stats(
 )
 def raw_ingest_strava_athlete_activities(
     context: AssetExecutionContext,
-    strava_api_resource: StravaHandlerResource,
+    strava_api_resource: StravaWrapperResource,
 ) -> Union[pl.DataFrame, None]:
     """
     Activities from the Athlete - partitioned asset

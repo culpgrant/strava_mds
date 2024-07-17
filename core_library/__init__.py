@@ -4,7 +4,6 @@ from core_library.dagster.dagster_asset_check_factory import (
     dagster_load_all_checks,
     load_yaml_asset_check_files,
 )
-from core_library.handler.strava_api import StravaHandler as StravaHandler
 from core_library.utilities.data_utils import key_values_in_lod
 from core_library.utilities.date_utils import (
     get_current_epoch_time,
@@ -25,9 +24,10 @@ from core_library.utilities.text_utils import (
     cols_text_to_standard,
     remove_special_charachters,
 )
+from core_library.wrapper.strava_api import StravaWrapper
 
 __all__ = [
-    "StravaHandler",
+    "StravaWrapper",
     "setup_console_logger",
     "get_current_epoch_time",
     "key_values_in_lod",

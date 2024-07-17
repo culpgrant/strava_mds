@@ -24,6 +24,12 @@ autolabeler:
   - label: release
     title:
       - '/^release/'
+  - label: dagster
+    title:
+      - '/^dagster/'
+  - label: dbt
+    title:
+      - '/^dbt/'
 
 template: |
   $CHANGES
@@ -44,4 +50,8 @@ categories:
     labels: build
   - title: 🛠️ Other improvements
     labels: internal
+  - title: 🎼 Dagster
+    labels: dagster
+  - title: 📈 DBT
+    labels: dbt
     collapse-after: 4

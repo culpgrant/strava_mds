@@ -7,7 +7,7 @@ from mds_dagster.assets.ingest import strava_asset
 from mds_dagster.assets.staging_data import strava_asset_staging
 from mds_dagster.jobs.assets.ingest.strava_jobs import strava_job
 from mds_dagster.resources.duck_db_resource import MDSDuckDBResource
-from mds_dagster.resources.ingest.strava_resource import StravaHandlerResource
+from mds_dagster.resources.ingest.strava_resource import StravaWrapperResource
 from mds_dagster.resources.polars_parquet_io_manager import (
     polars_parquet_io_manager_resource,
 )
@@ -25,7 +25,7 @@ all_sensors = [make_slack_on_failure_sensor()]
 defs = Definitions(
     assets=all_assets,
     resources={
-        "strava_api_resource": StravaHandlerResource(
+        "strava_api_resource": StravaWrapperResource(
             strava_client_id=EnvVar("strava_api_client_id"),
             strava_client_secret=EnvVar("strava_api_client_secret"),
             grant_type="refresh_token",

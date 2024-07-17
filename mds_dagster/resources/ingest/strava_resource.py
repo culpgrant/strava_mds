@@ -5,10 +5,10 @@ from typing import Optional
 
 from dagster import ConfigurableResource
 
-from core_library.handler.strava_api import StravaHandler
+from core_library.wrapper.strava_api import StravaWrapper
 
 
-class StravaHandlerResource(ConfigurableResource):
+class StravaWrapperResource(ConfigurableResource):
     """
     Resource to Interact with the Strava API
     """
@@ -19,14 +19,14 @@ class StravaHandlerResource(ConfigurableResource):
     code: Optional[str] = None
     refresh_token: Optional[str] = None
 
-    def get_client(self) -> StravaHandler:
+    def get_client(self) -> StravaWrapper:
         """
         Override get_client
 
-        :return: Handler from core_library
-        :rtype: StravaHandler
+        :return: Wrapper from core_library
+        :rtype: StravaWrapper
         """
-        return StravaHandler(
+        return StravaWrapper(
             strava_client_id=self.strava_client_id,
             strava_client_secret=self.strava_client_secret,
             grant_type=self.grant_type,

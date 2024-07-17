@@ -1,5 +1,5 @@
 """
-Strava API Handler
+Strava API Wrapper
 """
 from functools import lru_cache
 from typing import Dict, Generator, List, Optional
@@ -12,9 +12,9 @@ from core_library.utilities.misc_utils import setup_console_logger
 mds_logger = setup_console_logger()
 
 
-class StravaHandler:
+class StravaWrapper:
     """
-    Strava Handler for communicating with API
+    Strava Wrapper for communicating with API
     """
 
     def __init__(

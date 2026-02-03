@@ -538,26 +538,26 @@ files = [
 
 [[package]]
 name = "dagster-polars"
-version = "0.3.1"
+version = "0.27.9"
 description = "Dagster integration library for Polars"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = ">=3.10"
 files = [
-    {file = "dagster_polars-0.3.1-py3-none-any.whl", hash = "sha256:fd2a9ac9ac68e4f74dae031e40327847d29dc86e045041f75b5e2c540b55cb2e"},
-    {file = "dagster_polars-0.3.1.tar.gz", hash = "sha256:af5ed62caba1855c75ac634fc9307e9324faf00ea79077600e51b0c5515b8490"},
+    {file = "dagster_polars-0.27.9-py3-none-any.whl", hash = "sha256:19cdeb5a6c85cd86d27e7d4d6830c1f694a5aaf57ae7643f09d3bb1256f548ec"},
+    {file = "dagster_polars-0.27.9.tar.gz", hash = "sha256:8e76b405939cc38a9fae4a604fe00a1838cb9c2d4846f4218fd2664d94392fe3"},
 ]
 
 [package.dependencies]
-dagster = ">=1.5.1,<2.0.0"
-pendulum = "<3.0.0"
+dagster = "*"
 polars = ">=0.20.0"
 pyarrow = ">=8.0.0"
-typing-extensions = ">=4.7.1,<5.0.0"
-universal-pathlib = ">=0.1.4,<0.2.0"
+typing-extensions = ">=4.7.0"
+universal-pathlib = ">=0.1.4"
 
 [package.extras]
-deltalake = ["deltalake (>=0.15.0)"]
+deltalake = ["deltalake (>=0.25.0)"]
 gcp = ["dagster-gcp (>=0.19.5)"]
+patito = ["patito (>=0.8.3)"]
 
 [[package]]
 name = "dagster-slack"
@@ -3326,4 +3326,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "edcf83655087b3066db7c88d72764aa7af77bd71500aade66fa79c0e38421445"
+content-hash = "ef0b4a4f0d366bbd31dcce40756603c4ef78f5a7c10295c3f71fbe22fed19acb"

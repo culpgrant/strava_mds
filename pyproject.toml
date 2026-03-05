@@ -19,7 +19,7 @@ tenacity = "^8.2.3"
 sphinx = "7.2.6"
 polars = {version = "0.20.13", extras = ["pyarrow"]}
 dagster-polars = "^0.3.1"
-dagster-duckdb = "0.22.4"
+dagster-duckdb = "0.28.18"
 pyright = "^1.1.345"
 dagster-slack = "^0.22.0"
 
